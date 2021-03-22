@@ -8,7 +8,6 @@ const bcrypt = require('bcrypt');
 const knex = require('knex');
 require('dotenv').config()
 
-
 //importing the controllers
 const register = require('./controllers/register');
 const signin = require('./controllers/signin');
@@ -43,14 +42,14 @@ app.use(cors());
 // adding morgan to log HTTP requests
 app.use(morgan('combined'));
 
-// defining an endpoint to return all ads
+// endpoints
 app.get('/', (req, res) => {
   res.send("it's working");
 });
 
-//main functionalities
-app.post('/signin', (req, res) => signin.handleSignin(req, res, db, bcrypt))
-app.post('/register', (req, res) => register.handleRegister(req, res, db, bcrypt))
+app.post('/signin', (req, res) => signin.handleSignin(req, res, bcrypt, db))
+
+app.post('/register', (req, res) => register.handleRegister(req, res, bcrypt, db))
 
 // starting the server
 app.listen(portEnv || portFail, () => {
