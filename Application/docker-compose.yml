@@ -15,7 +15,8 @@ services:
       - ./Backend:/home/node/app
     expose:
       - "80"
-    command: "npm start"
+    command: >
+      sh -c "npm install && npm start"
 
   database:
     image: postgres:13-alpine
