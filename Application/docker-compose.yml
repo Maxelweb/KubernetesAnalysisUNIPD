@@ -1,5 +1,10 @@
 version: '3.1'
 
+# Ports: 
+# ------
+# backend-api: 8000
+# webapp: 80
+
 services:
 
   backend-api: 
@@ -14,9 +19,9 @@ services:
     volumes:
       - ./Backend:/home/node/app
     expose:
-      - "80"
+      - "8000"
     command: >
-      sh -c "chown -R $USER:$USER ./ && npm install && npm start"
+      sh -c "chown -R node:node ./ && npm install && npm start"
 
   database:
     image: postgres:13-alpine
