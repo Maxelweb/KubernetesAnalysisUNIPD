@@ -1,0 +1,21 @@
+name: Server Update
+
+on: 
+  push:
+    paths:
+    - 'Application/**'
+
+jobs:
+  update:
+    name: Server Update
+    runs-on: ubuntu-latest
+    steps:
+    - name: Executing remote SSH commands
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.SSH_HOST }}
+        username: ${{ secrets.SSH_USERNAME }}
+        key: ${{ secrets.SSH_KEY }}
+        port: ${{ secrets.SSH_PORT }}
+        debug: true
+        script: ./server_update.sh

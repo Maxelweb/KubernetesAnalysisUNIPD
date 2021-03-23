@@ -1,0 +1,33 @@
+version: '3.1'
+
+services:
+
+  backend-api: 
+    image: "node:14-alpine"
+    user: "node"
+    working_dir: /home/node/app
+    environment:
+      - NODE_ENV=production
+      - DB_USER=postgres
+      - DB_PASS=dontchangemeimsecure
+      - DB_NAME=rcd
+    volumes:
+      - ./Backend:/home/node/app
+    expose:
+      - "80"
+    command: "npm start"
+
+  database:
+    image: postgres:13-alpine
+    restart: always 
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: dontchangemeimsecure
+      POSTGRES_DB: rcd 
+
+  # Debug 
+  db-adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
