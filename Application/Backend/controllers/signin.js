@@ -1,5 +1,12 @@
 const validator = require('../utils/validator')
 
+/**
+ * signin function
+ * @param req 
+ * @param res 
+ * @param bcrypt library for crypt a password
+ * @param db reference to the database
+ */
 const handleSignin = (req, res, bcrypt, db) => {
     const {email, password } = req.body;
     
@@ -21,7 +28,7 @@ const handleSignin = (req, res, bcrypt, db) => {
                 }
             })
     } else {
-        res.status(400).json('incorrect form submission');
+        return res.status(400).json('incorrect form submission');
     } 
 }
 

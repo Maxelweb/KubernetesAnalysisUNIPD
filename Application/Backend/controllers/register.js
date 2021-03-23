@@ -1,5 +1,13 @@
 const validator = require('../utils/validator')
 
+/**
+ *  register function
+ * @param req 
+ * @param res 
+ * @param bcrypt library for crypt a password
+ * @param db reference to the database
+ * @returns 
+ */
 const handleRegister = (req, res, bcrypt, db) => {
     const {name, surname, email, password, certid} = req.body;
     const saltRounds = 10;
