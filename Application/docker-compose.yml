@@ -16,7 +16,7 @@ services:
     expose:
       - "80"
     command: >
-      sh -c "npm install && npm start"
+      sh -c "chown -R $USER:$USER ./ && npm install && npm start"
 
   database:
     image: postgres:13-alpine
