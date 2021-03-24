@@ -1,3 +1,6 @@
+# Kubernetes - Runtimes for Concurrency and Distribution 
+# 2020-2021
+
 version: '3.1'
 
 # Ports: 
@@ -19,9 +22,12 @@ services:
     working_dir: /home/node
     environment:
       - NODE_ENV=production
+      - DB_HOST=db-postgres
       - DB_USER=postgres
       - DB_PASS=dontchangemeimsecure
       - DB_NAME=rcd
+      - REDIS_HOST=db-redis
+      - REDIS_PORT=6379
     ports:
       - 8080:3000
     networks:

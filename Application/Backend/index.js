@@ -16,9 +16,10 @@ const profile = require('./controllers/profile');
 //importing utils
 const auth = require('./utils/authorization')
 
-//ports
+//hosts and ports
 const portEnv = process.env.PORT;
 const portFail = 3000;
+const hostPostgresEnv = process.env.DB_HOST ? process.env.DB_HOST : 'localhost';
 
 // defining the Express app
 const app = express();
@@ -27,7 +28,7 @@ const app = express();
 const db = knex({
   client: 'pg',
   connection: {
-    host : 'localhost',
+    host : hostPostgresEnv,
     user : process.env.DB_USER,
     password : process.env.DB_PASS,
     database : process.env.DB_NAME
