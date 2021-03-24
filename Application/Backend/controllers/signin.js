@@ -40,15 +40,21 @@ const getAuthTokenId = () => {
 }
 
 /**
- * sign the token with the email of the user that is attempting to login
+ * sign the token with the C.F. of the user that is attempting to login
  * @param certid
  * @returns the sign for token
  */
-const signToken = (email) => {
-    const payload = { email }
-    return jwt.sign(payload, process.env.JWT_TOKEN, {expiresIn: '2 days'})
+const signToken = (certid) => {
+    const payload = { certid }
+    return jwt.sign(payload, process.env.JWT_TOKEN, { expiresIn: '2 days' })
 }
 
+/**
+ * store the token into redis database
+ * @param key 
+ * @param value 
+ * @returns 
+ */
 const setToken =  (key, value) => {
     return Promise.resolve(redisClient.set(key, value))
 }
@@ -57,12 +63,18 @@ const setToken =  (key, value) => {
  * Function that after the "first" login create a session that expires in 1 days, after this amount of time the user
  * need to do the signin process again
  * @param user object with all the information about the user that attempt to login
+ * @returns object with C.F. to use in the get request for the profile
  */
 const createSession = (user) => {
-    const { certid, email } = user;
-    const token = signToken(email)
-
-    console.log(token)
+    const { certid } = user;
+    const token = signToken(certid)
+    return setToken( token, certid ).then(() => {
+        return {
+            success: 'true',
+            certid,
+            token
+        }
+    }).catch(err => console.error(err))
 }
 
 /**
@@ -78,6 +90,7 @@ const signinAuthentication = (db, bcrypt) => (req, res) => {
     return authorization ? getAuthTokenId() : 
         handleSignin(db, bcrypt, req, res)
             .then(data =>  data.certid && data.email ? createSession(data) : Promise.reject(data))
+            .then(session => res.json(session))
             .catch(err => res.status(400).json(err))
 }
 
