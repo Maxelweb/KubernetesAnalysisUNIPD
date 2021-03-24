@@ -36,8 +36,8 @@ const handleSignin = (bcrypt, db, req, res) => {
 }
 
 /**
- * Retrive the certid form the token for profile managing
- * @param  req 
+ * Retrieve the certid form the token for profile managing
+ * @param req 
  * @param res 
  * @returns 
  */
@@ -92,7 +92,7 @@ const createSession = (user) => {
 /**
  * Handle all the signin process, if a user already signed in and there is a token session 
  * return the actual authorization token. Otherwise, it will return the user from the database and then create the session
- * 
+ * N.B.: set into the frontend header the authorization field with the token created as value.
  * @param db 
  * @param bcrypt 
  * @returns the ID of the authorization or create a session
