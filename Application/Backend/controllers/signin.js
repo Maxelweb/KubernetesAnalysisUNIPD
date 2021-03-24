@@ -1,6 +1,7 @@
 const validator = require('../utils/validator')
 const jwt = require('jsonwebtoken');
-
+const redis = require("redis");
+const redisClient = redis.createClient();
 
 /**
  * Check in the databse if a user exist
@@ -46,6 +47,10 @@ const getAuthTokenId = () => {
 const signToken = (email) => {
     const payload = { email }
     return jwt.sign(payload, 'Super_secret_token', {expiresIn: '2 days'})
+}
+
+const setToken =  (key, value) => {
+    return Promise.resolve(redisClient.set(key, value))
 }
 
 /**
