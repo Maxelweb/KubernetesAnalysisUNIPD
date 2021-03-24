@@ -35,8 +35,20 @@ const handleSignin = (bcrypt, db, req, res) => {
     } 
 }
 
-const getAuthTokenId = () => {
-    console.log('ok')
+/**
+ * Retrive the certid form the token for profile managing
+ * @param  req 
+ * @param res 
+ * @returns 
+ */
+const getAuthTokenCertid = (req, res) => {
+    const { authorization } = req.headers;
+    return redisClient.get(authorization, (err, reply) => {
+        if(err || !reply) {
+            return res.status(400).json('Unauthorized');
+        }
+        return res.json({certid: reply});
+    })
 }
 
 /**
@@ -87,7 +99,7 @@ const createSession = (user) => {
  */
 const signinAuthentication = (db, bcrypt) => (req, res) => {
     const { authorization } = req.headers;
-    return authorization ? getAuthTokenId() : 
+    return authorization ? getAuthTokenCertid(req, res) : 
         handleSignin(db, bcrypt, req, res)
             .then(data =>  data.certid && data.email ? createSession(data) : Promise.reject(data))
             .then(session => res.json(session))
