@@ -8,7 +8,7 @@ const validator = require('../utils/validator')
  * @param db reference to the database
  * @returns 
  */
-const handleRegister = (req, res, bcrypt, db) => {
+const handleRegister = (bcrypt, db) => (req, res) =>{
     const {name, surname, email, password, certid} = req.body;
     const saltRounds = 10;
     const salt = bcrypt.genSaltSync(saltRounds);

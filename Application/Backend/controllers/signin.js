@@ -7,7 +7,7 @@ const validator = require('../utils/validator')
  * @param bcrypt library for crypt a password
  * @param db reference to the database
  */
-const handleSignin = (req, res, bcrypt, db) => {
+const handleSignin = (bcrypt, db) => (req, res) => {
     const {email, password } = req.body;
     
     const params = validator.validation(email, password)
