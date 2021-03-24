@@ -1,4 +1,6 @@
 const validator = require('../utils/validator')
+const jwt = require('jsonwebtoken');
+
 
 /**
  * Check in the databse if a user exist
@@ -36,12 +38,42 @@ const getAuthTokenId = () => {
     console.log('ok')
 }
 
+/**
+ * sign the token with the email of the user that is attempting to login
+ * @param certid
+ * @returns the sign for token
+ */
+const signToken = (email) => {
+    const payload = { email }
+    return jwt.sign(payload, 'Super_secret_token', {expiresIn: '2 days'})
+}
+
+/**
+ * Function that after the "first" login create a session that expires in 1 days, after this amount of time the user
+ * need to do the signin process again
+ * @param user object with all the information about the user that attempt to login
+ */
+const createSession = (user) => {
+    const { certid, email } = user;
+    const token = signToken(email)
+
+    console.log(token)
+}
+
+/**
+ * Handle all the signin process, if a user already signed in and there is a token session 
+ * return the actual authorization token. Otherwise, it will return the user from the database and then create the session
+ * 
+ * @param db 
+ * @param bcrypt 
+ * @returns the ID of the authorization or create a session
+ */
 const signinAuthentication = (db, bcrypt) => (req, res) => {
     const { authorization } = req.headers;
     return authorization ? getAuthTokenId() : 
-    handleSignin(db, bcrypt, req, res)
-        .then(data => res.json(data))
-        .catch(err => res.status(400).json(err))
+        handleSignin(db, bcrypt, req, res)
+            .then(data =>  data.certid && data.email ? createSession(data) : Promise.reject(data))
+            .catch(err => res.status(400).json(err))
 }
 
 module.exports = {
