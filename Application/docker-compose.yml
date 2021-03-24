@@ -5,7 +5,7 @@ version: '3.1'
 
 # Ports: 
 # ------
-# backend-api: 8000
+# backend-api: 8080
 # webapp: 80
 # redis: 6379
 
@@ -53,7 +53,9 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: dontchangemeimsecure
-      POSTGRES_DB: rcd 
+      POSTGRES_DB: rcd
+    volumes: 
+      - ./Database:/docker-entrypoint-initdb.d # TODO: check if its working correctly
     restart: always 
 
   # Debug 
