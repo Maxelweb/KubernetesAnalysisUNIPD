@@ -35,7 +35,7 @@ services:
     volumes:
       - ./Backend:/home/node
     command: >
-      sh -c "npm install && npm start"
+      sh -c "chown -R node:node ./ && npm install && npm start"
 
   db-redis:
     container_name: db-redis
