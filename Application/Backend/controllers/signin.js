@@ -46,7 +46,7 @@ const getAuthTokenId = () => {
  */
 const signToken = (email) => {
     const payload = { email }
-    return jwt.sign(payload, 'Super_secret_token', {expiresIn: '2 days'})
+    return jwt.sign(payload, process.env.JWT_TOKEN, {expiresIn: '2 days'})
 }
 
 const setToken =  (key, value) => {
