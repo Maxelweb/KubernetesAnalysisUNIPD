@@ -82,7 +82,6 @@ const createSession = (user) => {
     const token = signToken(certid)
     return setToken( token, certid ).then(() => {
         return {
-            success: 'true',
             certid,
             token
         }
@@ -107,5 +106,6 @@ const signinAuthentication = (db, bcrypt) => (req, res) => {
 }
 
 module.exports = {
-    signinAuthentication: signinAuthentication
+    signinAuthentication: signinAuthentication,
+    redisClient
 };
