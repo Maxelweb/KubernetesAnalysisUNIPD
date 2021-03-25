@@ -49,7 +49,7 @@ app.use(morgan('combined'));
 
 // endpoints
 app.get('/', (req, res) => {
-  res.send("it's working");
+  res.json("it's working");
 });
 
 app.post('/signin', signin.signinAuthentication(bcrypt, db))
