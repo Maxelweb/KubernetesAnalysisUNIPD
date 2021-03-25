@@ -5,7 +5,7 @@ version: '3.1'
 
 # Ports: 
 # ------
-# backend-api: 8080
+# backend-api: 3000
 # webapp: 80
 # redis: 6379
 
@@ -17,7 +17,7 @@ networks:
 services:
   backend-api: 
     container_name: backend-api
-    image: node:13
+    image: node:14-alpine
     # user: node
     working_dir: /usr/src/Backend
     environment:
@@ -37,13 +37,16 @@ services:
 
   redis:
     container_name: redis
-    image: redis
+    image: redis:alpine
     ports:
       - 6379:6379
+    #networks:
+      #- kube-rcd-net
+    restart: always
 
   postgres:
     container_name: postgres
-    image: postgres:13
+    image: postgres:13-alpine
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: dontchangemeimsecure
