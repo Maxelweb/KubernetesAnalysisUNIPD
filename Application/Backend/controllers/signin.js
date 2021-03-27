@@ -1,7 +1,7 @@
 const validator = require('../utils/validator')
 const jwt = require('jsonwebtoken');
 const redis = require("redis");
-const redisClient = redis.createClient((process.env.REDIS_PORT ? process.env.REDIS_PORT : 6379), (process.env.REDIS_HOST ? process.env.REDIS_HOST : '127.0.0.1') );
+const redisClient = redis.createClient((process.env.REDIS_PORT ? process.env.REDIS_PORT : 6379), (process.env.REDIS_HOST ? process.env.REDIS_HOST : '127.0.0.1'));
 
 /**
  * Check in the databse if a user exist
@@ -44,6 +44,7 @@ const handleSignin = (bcrypt, db, req, res) => {
 const getAuthTokenCertid = (req, res) => {
     const { authorization } = req.headers;
     return redisClient.get(authorization, (err, reply) => {
+        console.log(reply)
         if(err || !reply) {
             return res.status(400).json('Unauthorized');
         }
@@ -58,7 +59,7 @@ const getAuthTokenCertid = (req, res) => {
  */
 const signToken = (certid) => {
     const payload = { certid }
-    return jwt.sign(payload, process.env.JWT_TOKEN, { expiresIn: '2 days' })
+    return jwt.sign(payload, 'supersecretyouneverknow', { expiresIn: '2 days' })
 }
 
 /**
@@ -67,7 +68,7 @@ const signToken = (certid) => {
  * @param value 
  * @returns 
  */
-const setToken =  (key, value) => {
+const setToken = (key, value) => {
     return Promise.resolve(redisClient.set(key, value))
 }
 
