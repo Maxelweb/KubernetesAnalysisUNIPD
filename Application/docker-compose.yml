@@ -5,20 +5,15 @@ version: '3.1'
 
 # Ports: 
 # ------
-# backend-api: 3000
+# backend-api: 8080
 # webapp: 80
 # redis: 6379
 
-
-networks:
-  kube-rcd-net:
-    driver: bridge
 
 services:
   backend-api: 
     container_name: backend-api
     image: node:14-alpine
-    # user: node
     working_dir: /usr/src/Backend
     environment:
       - NODE_ENV=production
@@ -29,35 +24,39 @@ services:
       - REDIS_HOST=redis
       - REDIS_PORT=6379
     ports:
-      - 3000:3000
+      - 8080:3000
     volumes:
       - ./Backend:/usr/src/Backend
     command: >
       sh -c "npm install && npm start"
+    depends_on:
+      - redis
+      - postgres
 
   redis:
     container_name: redis
     image: redis:alpine
     ports:
       - 6379:6379
-    #networks:
-      #- kube-rcd-net
     restart: always
+    depends_on: 
+      - postgres
 
   postgres:
     container_name: postgres
     image: postgres:13-alpine
+    build: ./Database
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: dontchangemeimsecure
       POSTGRES_DB: rcd
-    build: ./Database
     ports: 
       - "2345:5432"
+    restart: always
 
   # Debug 
-  db-adminer:
-    container_name: db-debug-adminer
+  debug-adminer:
+    container_name: debug-adminer
     image: adminer
     ports:
       - 8081:8080
