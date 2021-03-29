@@ -33,5 +33,6 @@ const handleSubmit = (db) => (req, res) => {
 }
 
 module.exports = {
-    handleProfile: handleProfile
+    handleProfile: handleProfile,
+    handleSubmit: handleSubmit
 }
