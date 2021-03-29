@@ -12,7 +12,6 @@ require('dotenv').config()
 const register = require('./controllers/register');
 const signin = require('./controllers/signin');
 const profile = require('./controllers/profile');
-const submit = require('./controllers/submit')
 
 //importing utils
 const auth = require('./utils/authorization')
@@ -59,7 +58,7 @@ app.post('/register', register.handleRegister(bcrypt, db))
 
 app.get('/profile/:certid', auth.requireAuth, profile.handleProfile(db))
 
-app.post('/submit', auth.requireAuth, submit.handleSubmit(db))
+app.post('/profile/:certid', auth.requireAuth, profile.handleSubmit(db))
 
 // starting the server
 app.listen(portEnv || portFail, () => {

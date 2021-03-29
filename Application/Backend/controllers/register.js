@@ -20,7 +20,8 @@ const handleRegister = (bcrypt, db) => (req, res) =>{
             trx.insert({
                     hash: hash,
                     certid: certid,
-                    email: email
+                    email: email,
+                    submission: ''
                 })
                 .into('login')
                 .returning('certid')
