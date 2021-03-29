@@ -5,7 +5,8 @@ CREATE TABLE users (
     name VARCHAR(100),
     surname VARCHAR(100),
     email text NOT NULL,
-    certid text UNIQUE NOT NULL
+    certid text UNIQUE NOT NULL,
+    submission TIMESTAMP
 );
 
 COMMIT;
