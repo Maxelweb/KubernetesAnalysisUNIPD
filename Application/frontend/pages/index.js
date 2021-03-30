@@ -5,10 +5,13 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Card from 'react-bootstrap/Card'
 import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/router'
 
 export default function Homepage({ Component }) {
     const [signinEmail, setSigninEmail] = useState ('');
     const [signinPassword, setSigninPassword] = useState ('');
+
+    const router = useRouter();
 
     let onSigninSubmit = async () => {
         const responseSignin = await fetch('https://api.rcd.debug.ovh/signin', {
@@ -25,6 +28,7 @@ export default function Homepage({ Component }) {
 
         if (json.certid) {
             window.localStorage.setItem('token', json.token);
+            window.localStorage.setItem('certid', json.certid);
 
             const responseProfile = await fetch('https://api.rcd.debug.ovh/profile/' + json.certid, {
                 method: 'GET',
@@ -36,6 +40,8 @@ export default function Homepage({ Component }) {
             const jsonProfile = await responseProfile.json();
             console.log(jsonProfile);
         }
+
+        router.push('/submit');
     };
 
     const [signupName, setSignupName] = useState ('');
