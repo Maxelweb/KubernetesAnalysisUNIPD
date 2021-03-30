@@ -1,4 +1,3 @@
-import { getUserData } from '../../libs/user'
 import Head from 'next/head'
 import Layout from '../../components/layout'
 import Container from 'react-bootstrap/Container'
@@ -7,7 +6,6 @@ import Col from 'react-bootstrap/Col'
 import Card from 'react-bootstrap/Card'
 
 export async function getStaticProps({ params }) {
-    const userData = await getUserData(params.certid)
     return {
         props: {
             //userData
@@ -31,6 +29,11 @@ export async function getStaticPaths() {
             {
                 params: {
                     certid: 'abc'
+                }
+            },
+            {
+                params: {
+                    certid: 'TRVGLC123123'
                 }
             }
         ],
