@@ -9,13 +9,13 @@ const validator = require('../utils/validator')
  * @returns 
  */
 const handleRegister = (bcrypt, db) => (req, res) =>{
-    const {name, surname, email, password, certid} = req.body;
+    const {name, surname, email, password, confirmPassword, certid} = req.body;
     const saltRounds = 10;
     const salt = bcrypt.genSaltSync(saltRounds);
     const hash = bcrypt.hashSync(password, salt);
     const params = validator.validation(name, surname, email, password, certid)
     
-    if (params) {  
+    if (params && password === confirmPassword) {  
         db.transaction(trx => {
             trx.insert({
                     hash: hash,
