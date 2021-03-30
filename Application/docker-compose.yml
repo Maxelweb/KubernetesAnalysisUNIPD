@@ -42,7 +42,7 @@ services:
     volumes:
       - ./frontend:/usr/src/Frontend
     command: >
-      sh -c "npm install && npm start"
+      sh -c "npm build && npm start"
     depends_on:
       - backend-api
 
