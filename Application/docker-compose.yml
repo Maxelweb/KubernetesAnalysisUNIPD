@@ -6,7 +6,7 @@ version: '3.1'
 # Ports: 
 # ------
 # backend-api: 8080
-# webapp: 80
+# frontend-webapp: 80
 # redis: 6379
 
 
@@ -32,6 +32,19 @@ services:
     depends_on:
       - redis
       - postgres
+
+  frontend-webapp: 
+    container_name: frontend-webapp
+    image: node:14-alpine
+    working_dir: /usr/src/Frontend
+    ports:
+      - 80:3000
+    volumes:
+      - ./Frontend:/usr/src/Frontend
+    command: >
+      sh -c "npm install && npm start"
+    depends_on:
+      - backend-api
 
   redis:
     container_name: redis
