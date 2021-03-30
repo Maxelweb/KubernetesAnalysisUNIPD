@@ -1,5 +1,3 @@
-const { response } = require("express");
-
 const handleProfile = (db) => (req, res) => {
     const { certid } = req.params
     db.select('*')
