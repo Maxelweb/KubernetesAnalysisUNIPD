@@ -22,7 +22,7 @@ const handleSubmit = (db) => (req, res) => {
         })
         .then(response => {
             if(response) {
-                res.status(200).json('succes')
+                res.status(200).json('success')
             } else {
                 res.status(400).json('unable to update')
             }
