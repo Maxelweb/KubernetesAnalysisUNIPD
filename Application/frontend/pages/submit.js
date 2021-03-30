@@ -6,6 +6,11 @@ import Col from 'react-bootstrap/Col'
 import Card from 'react-bootstrap/Card'
 
 export default function Submit({ Component }) {
+    const [certid, setCertid] = useState ('');
+    const [OTP, setOTP] = useState ('');
+
+
+
     return (
         <Layout>
         <Head>
@@ -21,12 +26,14 @@ export default function Submit({ Component }) {
                                 <p class="card-text">Insert your data to do something/get something</p>
                                 <form id="data-submit-form" action="" method="POST">
                                     <div class="input-group mb-3">
-                                        <input type="text" id="certid" name="certid" class="form-control" placeholder="Fiscal Code" required maxlength="16" onkeydown="upperCaseF(this)" />
+                                        <input type="text" id="certid" name="certid" class="form-control" placeholder="Fiscal Code" required
+                                            onChange={() => setCertid(event.target.value)} maxlength="16" onkeydown="upperCaseF(this)" />
                                     </div>
                                     <div class="input-group mb-3">
-                                        <input type="password" id="otp" name="otp" class="form-control" placeholder="One Time Password (OTP)" />
+                                        <input type="password" id="otp" name="otp" class="form-control" placeholder="One Time Password (OTP)"
+                                            onChange={() => setOTP(event.target.value)} />
                                     </div>
-                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                    <button type="submit" class="btn btn-primary" onClick={() => onSubmit()}>Submit</button>
                                 </form>
                             </Card.Body>
                         </Card>
