@@ -1,4 +1,4 @@
-import { getUserData } from '../../lib/user'
+import { getUserData } from '../../libs/user'
 import Head from 'next/head'
 import Layout from '../../components/layout'
 import Container from 'react-bootstrap/Container'
