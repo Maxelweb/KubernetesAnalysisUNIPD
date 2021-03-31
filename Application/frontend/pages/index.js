@@ -39,9 +39,10 @@ export default function Homepage({ Component }) {
             });
             const jsonProfile = await responseProfile.json();
             console.log(jsonProfile);
+            router.push('/submit');
         }
-
-        router.push('/submit');
+        else
+            alert("Invalid credentials");        
     };
 
     const [signupName, setSignupName] = useState ('');
@@ -101,7 +102,7 @@ export default function Homepage({ Component }) {
                 <title>Fake-INPS - Welcome</title>
             </Head>
             <Container className="p-1">
-                <Card className="bg-primary">
+                <Card className="colorPrimaryFake">
                     <Row className="p-2">
                         <Col md={6} className="bg-transparent">
                             <Card>
@@ -122,7 +123,7 @@ export default function Homepage({ Component }) {
                                 </Card.Body>
                             </Card>
                         </Col>
-                        <Col md={6} className="bg-transparent">
+                        <Col md={6} className="bg-transparent mt-2">
                             <Card>
                                 <Card.Body>
                                     <h3 className="card-title">Sign Up</h3>
@@ -152,7 +153,7 @@ export default function Homepage({ Component }) {
                                             <input type="password" id="signup-password-confirm" name="signup-password-confirm" className="form-control"
                                                 onChange={() => setSignupPasswordConfirm(event.target.value)} placeholder="Confirm Password" required />
                                         </div>
-                                        <button type="submit" className="btn btn-primary" onClick={() => onSignupSubmit()}>Signup</button>
+                                        <button type="submit" className="btn btn-success" onClick={() => onSignupSubmit()}>Signup</button>
                                     </form>
                                 </Card.Body>
                             </Card>

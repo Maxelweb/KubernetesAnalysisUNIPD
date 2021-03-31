@@ -54,14 +54,14 @@ export default function Submit({ Component }) {
             <title>Fake-INPS - Insert data for that thing</title>
         </Head>
             <Container className="p-1">
-                <Card className="bg-primary">
+                <Card className="colorPrimaryFake">
                     <Row className="p-2">
                         <Col md={3}></Col>
                         <Card className="col-6 align-self-center">
                             <Card.Body>
                                 <h3 className="card-title">Insert something</h3>
                                 <p className="card-text">Insert your data to do something/get something</p>
-                                <p className="card-text">Here is your One Time Password: {OTPGenerated}</p>
+                                <p className="card-text">Here is your One Time Password: <code>{OTPGenerated}</code></p>
                                 <form id="data-submit-form" method="POST" action="javascript:void(0)">
                                     <div className="input-group mb-3">
                                         <input type="text" id="certid" name="certid" className="form-control" placeholder="Fiscal Code" required
