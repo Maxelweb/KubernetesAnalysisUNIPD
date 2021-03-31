@@ -1,0 +1,35 @@
+
+@font-face {
+    font-family: "Titillium Web";
+    src: url("/fonts/TitilliumWeb-Regular.ttf");
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+  }
+
+
+body {
+    font-family:  "Titillium Web", Helvetica, Arial, sans-serif !important;
+    font-size: 100%;
+}
+
+.logoFake {
+    background-color: #007db3;
+}
+
+.navFake {
+    background-color: #005980 !important;
+    color: whitesmoke;
+}
+
+.colorPrimaryFake {
+    background-color: #00364d;
+}
+
+.btn-primary {
+    background-color: #007db3 !important;
+}
+
+.pointerFake {
+    cursor: pointer;
+}

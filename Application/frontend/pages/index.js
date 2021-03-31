@@ -29,6 +29,7 @@ export default function Homepage({ Component }) {
         if (json.certid) {
             window.localStorage.setItem('token', json.token);
             window.localStorage.setItem('certid', json.certid);
+            
 
             const responseProfile = await fetch('https://api.rcd.debug.ovh/profile/' + json.certid, {
                 method: 'GET',
@@ -39,9 +40,12 @@ export default function Homepage({ Component }) {
             });
             const jsonProfile = await responseProfile.json();
             console.log(jsonProfile);
+            
+            window.localStorage.setItem('username', jsonProfile.name);
+            router.push('/submit');
         }
-
-        router.push('/submit');
+        else
+            alert("Invalid credentials");        
     };
 
     const [signupName, setSignupName] = useState ('');
@@ -101,14 +105,14 @@ export default function Homepage({ Component }) {
                 <title>Fake-INPS - Welcome</title>
             </Head>
             <Container className="p-1">
-                <Card className="bg-primary">
+                <Card className="colorPrimaryFake">
                     <Row className="p-2">
                         <Col md={6} className="bg-transparent">
                             <Card>
                                 <Card.Body>
                                     <h3 className="card-title">Sign In</h3>
                                     <p className="card-text">Sign in if you already have an account</p>
-                                    <form id="signin-form" method="POST" action="javascript:void(0)">
+                                    <form id="signin-form" method="post" action="#" onSubmit={() => {event.preventDefault(); return false;}}>
                                         <div className="input-group mb-3">
                                             <input type="email" id="signin-email" name="signin-email" className="form-control"
                                                 placeholder="Email" onChange={() => setSigninEmail(event.target.value)} />
@@ -122,12 +126,12 @@ export default function Homepage({ Component }) {
                                 </Card.Body>
                             </Card>
                         </Col>
-                        <Col md={6} className="bg-transparent">
+                        <Col md={6} className="bg-transparent mt-2">
                             <Card>
                                 <Card.Body>
                                     <h3 className="card-title">Sign Up</h3>
                                     <p className="card-text">Sign up if you do not already have an account</p>
-                                    <form id="signup-form" method="POST" action="javascript:void(0)">
+                                    <form id="signup-form" method="post" action="#" onSubmit={() => {event.preventDefault(); return false;}}>
                                         <div className="input-group mb-3">
                                             <input type="text" id="signup-name" name="signup-name" className="form-control" placeholder="Name" required
                                                  onChange={() => setSignupName(event.target.value)} />
@@ -152,7 +156,7 @@ export default function Homepage({ Component }) {
                                             <input type="password" id="signup-password-confirm" name="signup-password-confirm" className="form-control"
                                                 onChange={() => setSignupPasswordConfirm(event.target.value)} placeholder="Confirm Password" required />
                                         </div>
-                                        <button type="submit" className="btn btn-primary" onClick={() => onSignupSubmit()}>Signup</button>
+                                        <button type="submit" className="btn btn-success" onClick={() => onSignupSubmit()}>Signup</button>
                                     </form>
                                 </Card.Body>
                             </Card>
