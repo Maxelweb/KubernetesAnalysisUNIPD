@@ -33,9 +33,7 @@ export default function Layout({ children }) {
                 <div className="container">
                     <Row className="py-2 align-left">
                         <Col md={1}>
-                            <a href="javascript:void(0)"  onClick={() => router.push("/")}>
-                                <Image src="/images/logo.png" alt="Fake-INPS logo" className="rounded float-start logoFake img-thumbnail p-2"/>
-                            </a>
+                            <Image src="/images/logo.png" alt="Fake-INPS logo" className="rounded float-start logoFake img-thumbnail p-2 pointerFake"onClick={() => router.push("/")}/>
                         </Col>
                         <Col>
                             <h1>Fake-INPS</h1>

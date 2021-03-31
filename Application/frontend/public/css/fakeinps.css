@@ -29,3 +29,7 @@ body {
 .btn-primary {
     background-color: #007db3 !important;
 }
+
+.pointerFake {
+    cursor: pointer;
+}

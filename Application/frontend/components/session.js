@@ -14,12 +14,13 @@ export default function Session() {
 
         window.localStorage.removeItem('token');
         window.localStorage.removeItem('certid');
+        window.localStorage.removeItem('username');
         router.push('/');
     }
 
-    const loggedInMessage = (
-        <strong>&#10004; You are logged in - 
-            <small> <a href='#' className="text-warning" onClick={() => onLogout()}>logout</a></small>
+    const loggedInMessage = (name) => (
+        <strong>&#10004; Hi {name}, you are logged in&nbsp; 
+            <small> (<a href='#' className="text-warning" onClick={() => onLogout()}>logout</a>)</small>
         </strong>
     ); 
 
@@ -31,9 +32,10 @@ export default function Session() {
         if(window.localStorage.getItem('token') == null) {
             setSessionCurrentMessage(loggedOutMessage);
         } else {
-            setSessionCurrentMessage(loggedInMessage);
-        }   
-    });
+            setSessionCurrentMessage(loggedInMessage(window.localStorage.getItem('username')));
+        } 
+        return null;  
+    }, []);
 
 
 

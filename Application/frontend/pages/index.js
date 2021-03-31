@@ -29,6 +29,7 @@ export default function Homepage({ Component }) {
         if (json.certid) {
             window.localStorage.setItem('token', json.token);
             window.localStorage.setItem('certid', json.certid);
+            
 
             const responseProfile = await fetch('https://api.rcd.debug.ovh/profile/' + json.certid, {
                 method: 'GET',
@@ -39,6 +40,8 @@ export default function Homepage({ Component }) {
             });
             const jsonProfile = await responseProfile.json();
             console.log(jsonProfile);
+            
+            window.localStorage.setItem('username', jsonProfile.name);
             router.push('/submit');
         }
         else
@@ -109,7 +112,7 @@ export default function Homepage({ Component }) {
                                 <Card.Body>
                                     <h3 className="card-title">Sign In</h3>
                                     <p className="card-text">Sign in if you already have an account</p>
-                                    <form id="signin-form" method="POST" action="javascript:void(0)">
+                                    <form id="signin-form" method="post" action="#" onSubmit={() => {event.preventDefault(); return false;}}>
                                         <div className="input-group mb-3">
                                             <input type="email" id="signin-email" name="signin-email" className="form-control"
                                                 placeholder="Email" onChange={() => setSigninEmail(event.target.value)} />
@@ -128,7 +131,7 @@ export default function Homepage({ Component }) {
                                 <Card.Body>
                                     <h3 className="card-title">Sign Up</h3>
                                     <p className="card-text">Sign up if you do not already have an account</p>
-                                    <form id="signup-form" method="POST" action="javascript:void(0)">
+                                    <form id="signup-form" method="post" action="#" onSubmit={() => {event.preventDefault(); return false;}}>
                                         <div className="input-group mb-3">
                                             <input type="text" id="signup-name" name="signup-name" className="form-control" placeholder="Name" required
                                                  onChange={() => setSignupName(event.target.value)} />

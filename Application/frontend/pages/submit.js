@@ -72,27 +72,27 @@ export default function Submit({ Component }) {
         </Head>
             <Container className="p-1">
                 <Card className="colorPrimaryFake">
-                    <Row className="p-2">
-                        <Col md={3}></Col>
-                        <Card className="col-6 align-self-center">
-                            <Card.Body>
-                                <h3 className="card-title">Insert data</h3>
-                                <p className="card-text">Insert your data to submit your citizenship income request</p>
-                                <p className="card-text text-secondary">Here is your One Time Password: <code>{OTPGenerated}</code></p>
-                                <form id="data-submit-form" method="post" action="javascript:void(0)">
-                                    <div className="input-group mb-3">
-                                        <input type="text" id="certid" name="certid" className="form-control" placeholder="Fiscal Code" required
-                                            onChange={() => setCertid(event.target.value)} maxLength="16" />
-                                    </div>
-                                    <div className="input-group mb-3">
-                                        <input type="password" id="otp" name="otp" className="form-control" placeholder="One Time Password (OTP)"
-                                            onChange={() => setOTP(event.target.value)} />
-                                    </div>
-                                    <button type="submit" className="btn btn-primary" onClick={() => onSubmit()}>Submit</button>
-                                </form>
-                            </Card.Body>
-                        </Card>
-                        <Col md={3}></Col>
+                    <Row className="p-2 align-self-center">
+                        <Col>
+                            <Card className="">
+                                <Card.Body>
+                                    <h3 className="card-title">Submit request</h3>
+                                    <p className="card-text">Insert your data to submit your citizenship income request</p>
+                                    <p className="card-text text-secondary">Here is your One Time Password: <code className="h5">{OTPGenerated}</code></p>
+                                    <form id="submit-form" method="post" action="#" onSubmit={() => {event.preventDefault(); return false;}}>
+                                        <div className="input-group mb-3">
+                                            <input type="password" id="otp" name="otp" className="form-control" placeholder="One Time Password (OTP)"
+                                                onChange={() => setOTP(event.target.value)} />
+                                        </div>
+                                        <div className="input-group mb-3">
+                                            <input type="text" id="certid" name="certid" className="form-control" placeholder="Fiscal Code" required
+                                                onChange={() => setCertid(event.target.value)} maxLength="16" />
+                                        </div>
+                                        <button type="submit" className="btn btn-primary" onClick={() => onSubmit()}>Submit</button>
+                                    </form>
+                                </Card.Body>
+                            </Card>
+                        </Col>
                     </Row>
                 </Card>
             </Container>
