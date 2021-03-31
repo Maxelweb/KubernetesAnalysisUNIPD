@@ -4,12 +4,14 @@ import { useRouter } from 'next/router'
 
 export default function Session() {
 
-    
     const router = useRouter();
 
     const [sessionCurrentMessage, setSessionCurrentMessage] = useState(null);
 
     let onLogout = () => { 
+
+        // TODO: we can implement a backend async call to notify the backend that the token is no more used.
+
         window.localStorage.removeItem('token');
         window.localStorage.removeItem('certid');
         router.push('/');

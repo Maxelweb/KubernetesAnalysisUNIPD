@@ -6,10 +6,12 @@ import Navbar from 'react-bootstrap/Navbar'
 import Nav from 'react-bootstrap/Nav'
 import Image from 'react-bootstrap/Image'
 import Session from './session'
-import { useState, useEffect } from 'react'
-
+import {useRouter} from 'next/router'
 
 export default function Layout({ children }) {
+
+    const router = useRouter();
+
     return (
         <div>
             <Head>
@@ -31,14 +33,13 @@ export default function Layout({ children }) {
                 <div className="container">
                     <Row className="py-2 align-left">
                         <Col md={1}>
-                            <Link href="/">
-                                <a>
-                                    <Image src="/images/logo.png" alt="Fake-INPS logo" className="rounded float-start logoFake img-thumbnail p-2"/>
-                                </a>
-                            </Link>
+                            <a href="javascript:void(0)"  onClick={() => router.push("/")}>
+                                <Image src="/images/logo.png" alt="Fake-INPS logo" className="rounded float-start logoFake img-thumbnail p-2"/>
+                            </a>
                         </Col>
                         <Col>
-                            <h1>Welcome to Fake-INPS</h1>
+                            <h1>Fake-INPS</h1>
+                            <h2 className="mb-0 h3 text-secondary">Welcome to the fake-INPS portal</h2>
                         </Col>
                     </Row>
                 </div>
@@ -46,7 +47,8 @@ export default function Layout({ children }) {
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav" className="container">
                     <Nav className="mr-auto">
-                        <Nav.Link href="/">Homepage</Nav.Link>
+                        <Nav.Link onClick={() => router.push("/")}>Homepage</Nav.Link>
+                        <Nav.Link onClick={() => router.push("/submit")}>Submit request</Nav.Link>
                         <Nav.Link href="https://youtu.be/tN1p4R_3J-Q?t=38" target="_blank">Citizenship Income</Nav.Link>
                     </Nav>
                     </Navbar.Collapse>
