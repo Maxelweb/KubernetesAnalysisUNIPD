@@ -36,14 +36,14 @@ export default function Submit({ Component }) {
 
         if (certidStorage === certid && OTP === OTPGenerated) {
             const response = await fetch('https://api.rcd.debug.ovh/profile/' + certidStorage, {
-                method: 'POST',
+                method: 'POST', // Here we submit with POST request
                 headers: {
                     'authorization': window.localStorage.getItem('token'),
                     'Content-Type': 'application/json'
                 },
             });
             const json = await response.json();
-            router.push('/profile/' + certidStorage);
+            router.push('/profile');
         }
         else {
             alert('Wrong OTP or Fiscal Code inserted! Please check again.')
