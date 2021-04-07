@@ -30,6 +30,10 @@ const handleSubmit = (db) => (req, res) => {
         .catch(err => res.status(404).json('error during the submission.'))
 }
 
+const getRank = (db) => (req, res) => {
+    db('user')
+}
+
 module.exports = {
     handleProfile: handleProfile,
     handleSubmit: handleSubmit

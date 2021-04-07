@@ -60,6 +60,8 @@ app.get('/profile/:certid', auth.requireAuth, profile.handleProfile(db))
 
 app.post('/profile/:certid', auth.requireAuth, profile.handleSubmit(db))
 
+app.get('/rank', auth.requireAuth, profile.getRank(db))
+
 // starting the server
 app.listen(portEnv || portFail, () => {
   console.log(`Server running on http://localhost:${portEnv ? portEnv : portFail}`);
