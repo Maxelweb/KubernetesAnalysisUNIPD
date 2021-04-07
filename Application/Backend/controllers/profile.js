@@ -36,7 +36,7 @@ const getRank = (db) => (req, res) => {
         .orderBy('submission', 'ASC')
         .then(list => {
             if (list.length) {
-                res.json(list[0])
+                res.json(list)
             } else {
                 res.status(404).json('No users have submitted the from!')
             }
