@@ -70,9 +70,9 @@ services:
     restart: always
 
   # Debug 
-  debug-adminer:
-    container_name: debug-adminer
-    image: adminer
-    ports:
-      - 8081:8080
-    restart: always
+  # debug-adminer:
+  #   container_name: debug-adminer
+  #   image: adminer
+  #   ports:
+  #     - 8081:8080
+  #   restart: always
