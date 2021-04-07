@@ -31,10 +31,21 @@ const handleSubmit = (db) => (req, res) => {
 }
 
 const getRank = (db) => (req, res) => {
-    db('user')
+    db.select('*')
+        .from('users')
+        .orderBy('submission', 'ASC')
+        .then(list => {
+            if (list.length) {
+                res.json(list[0])
+            } else {
+                res.status(404).json('No users have submitted the from!')
+            }
+        })
+        .catch(err => res.status(404).json('Error getting user ranking.'));
 }
 
 module.exports = {
     handleProfile: handleProfile,
-    handleSubmit: handleSubmit
+    handleSubmit: handleSubmit,
+    getRank: getRank
 }
