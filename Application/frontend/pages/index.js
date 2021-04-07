@@ -30,7 +30,6 @@ export default function Homepage({ Component }) {
             window.localStorage.setItem('token', json.token);
             window.localStorage.setItem('certid', json.certid);
             
-
             const responseProfile = await fetch('https://api.rcd.debug.ovh/profile/' + json.certid, {
                 method: 'GET',
                 headers: {
@@ -39,13 +38,19 @@ export default function Homepage({ Component }) {
                 }
             });
             const jsonProfile = await responseProfile.json();
+
             console.log(jsonProfile);
             
             window.localStorage.setItem('username', jsonProfile.name);
             router.push('/submit');
+            //TODO controlla se funziona così che chi ha già compilato il form non venga reindirizzato alla pagina per compilarlo
+            /*if (json.submission)
+                router.push('/submit');
+            else
+                router.push('/profile');*/
         }
         else
-            alert("Invalid credentials");        
+            alert("Invalid credentials");
     };
 
     const [signupName, setSignupName] = useState ('');
@@ -72,6 +77,15 @@ export default function Homepage({ Component }) {
         });
         const json = await response.json();
         console.log(json);
+
+        if(json.certid != null)
+        {
+            alert("Successfully signed up - proceed to login");
+        }
+        else {
+            alert("Error while signing up, retry...");
+        }
+
     };
 
     useEffect(async () => {
@@ -126,7 +140,7 @@ export default function Homepage({ Component }) {
                                 </Card.Body>
                             </Card>
                         </Col>
-                        <Col md={6} className="bg-transparent mt-2">
+                        <Col md={6} className="bg-transparent">
                             <Card>
                                 <Card.Body>
                                     <h3 className="card-title">Sign Up</h3>

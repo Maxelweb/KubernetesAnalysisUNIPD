@@ -77,7 +77,7 @@ export default function Submit({ Component }) {
                             <Card className="">
                                 <Card.Body>
                                     <h3 className="card-title">Submit request</h3>
-                                    <p className="card-text">Insert your data to submit your citizenship income request</p>
+                                    <p className="card-text">Insert your data to submit your citizenship income request. If you have already submitted, you will submit your current request with a new one.</p>
                                     <p className="card-text text-secondary">Here is your One Time Password: <code className="h5">{OTPGenerated}</code></p>
                                     <form id="submit-form" method="post" action="#" onSubmit={() => {event.preventDefault(); return false;}}>
                                         <div className="input-group mb-3">

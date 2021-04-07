@@ -33,6 +33,7 @@ const handleSubmit = (db) => (req, res) => {
 const getRank = (db) => (req, res) => {
     db.select('*')
         .from('users')
+        .whereNot('submission', null)
         .orderBy('submission', 'ASC')
         .then(list => {
             if (list.length) {

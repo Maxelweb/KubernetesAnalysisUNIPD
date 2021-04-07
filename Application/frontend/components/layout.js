@@ -47,18 +47,15 @@ export default function Layout({ children }) {
                     <Nav className="mr-auto">
                         <Nav.Link onClick={() => router.push("/")}>Homepage</Nav.Link>
                         <Nav.Link onClick={() => router.push("/submit")}>Submit request</Nav.Link>
+                        <Nav.Link onClick={() => router.push("/ranking")}>Ranking</Nav.Link>
                         <Nav.Link href="https://youtu.be/tN1p4R_3J-Q?t=38" target="_blank">Citizenship Income</Nav.Link>
                     </Nav>
                     </Navbar.Collapse>
                 </Navbar>
             </header>
             <main>{children}</main>
-            <footer>
-                <Row className="py-2 text-center small">
-                    <Col>
+            <footer className="py-3 text-center small">
                        Runtimes for Concurrency and Distribution - Project on <a href="https://github.com/Maxelweb/Kubernetes-RCD">Github</a>
-                    </Col>
-                </Row>
             </footer>
         </div>
     )
