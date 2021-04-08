@@ -18,6 +18,9 @@ Kubernetes analysis, Runtimes for Concurrency and Distribution course, Computer 
 
 ## Kubernetes
 
+> NOTA:
+> `kubectl config set-context --current --namespace <nome-namespace>` --> setta come corrente il `-n` nei comandi!
+
 - `kubectl get all -A` --> show all stuff from kubernetes
 - dashboard --> https://github.com/kubernetes/dashboard `kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.2.0/aio/deploy/recommended.yaml
 `
