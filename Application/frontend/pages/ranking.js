@@ -24,7 +24,10 @@ export default function Profile( { Component } ) {
         /*if (window.localStorage.getItem('token') != null){
             getProfile();            
         }*/
-        setUsers(await getUsers());
+        if (loggedIn === true)
+            setUsers(await getUsers());
+        else
+            setUsers([])
     }, []);
 
     const getUsers = async () => {
@@ -39,6 +42,10 @@ export default function Profile( { Component } ) {
         //console.log(response);
         const myCertid = window.localStorage.getItem('certid');
         const jsonRank = await response.json();
+
+        if (jsonRank.length === 0)  //this should stop errors from happening if no submissions have been made
+            return;
+        
         return (
             (json2array(jsonRank)).map((user, i) => {
                 if (user.certid === myCertid) {
