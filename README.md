@@ -21,6 +21,8 @@ Kubernetes analysis, Runtimes for Concurrency and Distribution course, Computer 
 > NOTA:
 > `kubectl config set-context --current --namespace <nome-namespace>` --> setta come corrente il `-n` nei comandi!
 
+> https://stackoverflow.com/questions/57297337/docker-for-desktop-kubernetes-unable-to-connect-to-the-server-dial-tcp-164
+
 - `kubectl get all -A` --> show all stuff from kubernetes
 - dashboard --> https://github.com/kubernetes/dashboard `kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.2.0/aio/deploy/recommended.yaml
 `
