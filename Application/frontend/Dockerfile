@@ -9,5 +9,6 @@ COPY package*.json ./
 COPY . .
 
 RUN npm install
+RUN npm run-script build
 
 CMD [ "npm", "start" ]
