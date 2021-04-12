@@ -19,10 +19,9 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
           registry: docker.pkg.github.com
-          repository: maxelweb/kubernetes-rcd
+          repository: maxelweb/kubernetes-rcd/backend-rcd
           path: Application/Backend
           tag_with_ref: true
-          tags: latest
   
   push_frontend_to_registry:
     name: Push Frontend image to GitHub Packages
@@ -36,6 +35,6 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
           registry: docker.pkg.github.com
-          repository: maxelweb/kubernetes-rcd/frontend
+          repository: maxelweb/kubernetes-rcd/frontend-rcd
           path: Application/frontend
           tag_with_ref: true
