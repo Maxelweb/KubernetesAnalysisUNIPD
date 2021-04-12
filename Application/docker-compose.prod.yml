@@ -6,9 +6,8 @@ version: '3.1'
 services:
   backend-api: 
     container_name: backend-api
-    image: node:14-alpine
+    image: docker.pkg.github.com/maxelweb/kubernetes-rcd/backend-rcd:latest
     # build: ./Backend
-    working_dir: /usr/src/Backend
     environment:
       - NODE_ENV=production
       - DB_HOST=postgres
@@ -19,21 +18,16 @@ services:
       - REDIS_PORT=6379
     ports:
       - 8080:3000
-    volumes:
-      - ./Backend:/usr/src/Backend
     depends_on:
       - redis
       - postgres
 
   frontend-webapp: 
     container_name: frontend-webapp
-    image: node:14-alpine
+    image: docker.pkg.github.com/maxelweb/kubernetes-rcd/frontend-rcd:latest
     # build: ./frontend
-    working_dir: /usr/src/Frontend
     ports:
       - 80:3000
-    volumes:
-      - ./frontend:/usr/src/Frontend
     depends_on:
       - backend-api
 
