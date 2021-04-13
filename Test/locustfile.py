@@ -2,50 +2,65 @@
 # browsing the Locust documentation on https://docs.locust.io
 
 import random
-from locust import HttpUser, between, task
+from locust import HttpUser, SequentialTaskSet, TaskSet, between, task
+import logging, sys, json
 from pyquery import PyQuery
+import csv
 
+USER_CREDENTIALS = []
 
-class DummyUser
+class UserSignUpInAndRequest(SequentialTaskSet):
+    name = "defaultname"
+    surname = "defaultsurname"
+    email = "test@test.it"
+    certid = "defaultcertid"
+    password = "vivaisoldi"
+    token = ""
 
-class AwesomeUser(HttpUser):
-    host = "https://rcd.debug.ovh"
-    
-    # we assume someone who is browsing the Locust docs, 
-    # generally has a quite long waiting time (between 
-    # 10 and 600 seconds), since there's a bunch of text 
-    # on each page
-    # wait_time = between(10, 600)
-
-
-
-    # pq = PyQuery(r.content)
-    # link_elements = pq(".toctree-wrapper a.internal")    
-    
     def on_start(self):
-        # start by waiting so that the simulated users 
-        # won't all arrive at the same time
-        self.wait()
-        # assume all users arrive at the index page
-        self.index_page()
-        self.urls_on_current_page = self.toc_urls
-    
-    @task(10)
-    def index_page(self):
-        r = self.client.get("/")
+        if len(USER_CREDENTIALS) > 0:
+            self.name, self.surname, self.email, self.certid = USER_CREDENTIALS.pop()
+            self.email = self.email + "@email.it"
+        #else:
+        #    TestInit.yoimstatic()
 
-    
-    @task(50)
-    def login(self):
-        url = random.choice(self.toc_urls)
-        r = self.client.get(url)
+    @task
+    def signup(self):
+        r = self.client.get("https://rcd.debug.ovh")
         pq = PyQuery(r.content)
-        link_elements = pq("a.internal")
-        self.urls_on_current_page = [
-            l.attrib["href"] for l in link_elements
-        ]
+        response = self.client.post("https://api.rcd.debug.ovh/register", data = json.dumps({
+            'name': self.name,
+            'surname': self.surname,
+            'certid': self.certid,
+            'email': self.email,
+            'password': self.password,
+            'confirmPassword': self.password
+        }), headers = {'Content-Type': 'application/json'})
+        logging.info('Sign up with %s email', self.email)
+
+    @task
+    def login(self):
+        response = self.client.post("https://api.rcd.debug.ovh/signin", data = json.dumps({
+            'email': self.email, 'password': self.password
+        }), headers = {'Content-Type': 'application/json'})
+        logging.info('RES=')
+        logging.info(response)
+        self.token = response.json().token
+        logging.info('Login with token: %s ', self.token)
+
+
+def yoimstatic():
+    global USER_CREDENTIALS
+    if (USER_CREDENTIALS == []):
+        with open('/mnt/locust/dataset/data_user_500.csv', 'rt') as f:
+            reader = csv.reader(f)
+            USER_CREDENTIALS = list(reader)
+        print("USER LIST LOADED!!")
+    return 1
+
+class TestInit(HttpUser):
+    tasks = [UserSignUpInAndRequest]
+    host = "https://api.rcd.debug.ovh"
+    sock = None
+    dummy = yoimstatic()
     
-    @task(30)
-    def load_sub_page(self):
-        url = random.choice(self.urls_on_current_page)
-        r = self.client.get(url)
