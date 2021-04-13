@@ -7,6 +7,12 @@ Kubernetes analysis, Runtimes for Concurrency and Distribution course, Computer 
 
 [![Server Update](https://github.com/Maxelweb/Kubernetes-RCD/actions/workflows/server-update.yml/badge.svg)](https://github.com/Maxelweb/Kubernetes-RCD/actions/workflows/server-update.yml)
 
+## Locust (test)
+
+`python3 -m data_generator data column1:str:6:20 column2:str:6:20 column3:str:6:24 column4:str:12:12 5000`
+`python3 -m data_generator data column1:str:6:20 column2:str:6:20 column3:str:6:24 column4:str:12:12 500000`
+
+
 ## Ansible guide
 
 - Ansible module apt: https://docs.ansible.com/ansible/latest/collections/ansible/builtin/apt_module.html
