@@ -8,7 +8,7 @@ const validator = require('../utils/validator')
  * @param db reference to the database
  * @returns 
  */
-const handleRegister = (bcrypt, db) => (req, res) =>{
+const handleRegister = async (bcrypt, db) => (req, res) =>{
     const {name, surname, email, password, confirmPassword, certid} = req.body;
     const saltRounds = 10;
     const salt = bcrypt.genSaltSync(saltRounds);
@@ -16,8 +16,8 @@ const handleRegister = (bcrypt, db) => (req, res) =>{
     const params = validator.validation(name, surname, email, password, certid)
     
     if (params && password === confirmPassword) {  
-        db.transaction(trx => {
-            trx.insert({
+        await db.transaction(async trx => {
+            await trx.insert({
                     hash: hash,
                     certid: certid,
                     email: email
