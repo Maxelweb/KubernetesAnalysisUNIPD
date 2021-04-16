@@ -17,11 +17,8 @@ export default function Profile( { Component } ) {
     const [users, setUsers] = useState ([]);
     const [printedRanking, setPrintedRanking] = useState ('');
     const [loggedIn, setLoggedIn] = useState (null);
-    const [time, setTime] = useState(Date.now());
 
     useEffect(async () => {
-        
-        const interval = setInterval(() => setTime(Date.now()), 1000);
         
         setLoggedIn(window.localStorage.getItem('token') != null);
         setCertid(window.localStorage.getItem('certid'))
@@ -32,10 +29,6 @@ export default function Profile( { Component } ) {
             setUsers(await getUsers());
         else
             setUsers([]);
-        
-        return () => {
-            clearInterval(interval);
-        };
         
     }, []);
 
@@ -64,6 +57,7 @@ export default function Profile( { Component } ) {
                             <td>{ user.name }</td>
                             <td>{ user.surname }</td>
                             <td>{ user.certid }</td>
+                            <td>{ user.submission }</td>
                         </tr>
                     )
                 }
@@ -74,6 +68,7 @@ export default function Profile( { Component } ) {
                             <td>{ censorInfo(user.name) }</td>
                             <td>{ censorInfo(user.surname) }</td>
                             <td>{ censorInfo(user.certid) }</td>
+                            <td>{ user.submission }</td>
                         </tr>
                     )
                 }
@@ -125,6 +120,7 @@ export default function Profile( { Component } ) {
                             <Card className="">
                                 <Card.Body>
                                     <h3 className="card-title">Ranking</h3>
+                                    Total submissions: { users.length }
                                     <Table striped bordered hover>
                                         <thead>
                                             <tr>
@@ -132,6 +128,7 @@ export default function Profile( { Component } ) {
                                                 <th>First Name</th>
                                                 <th>Last Name</th>
                                                 <th>Fiscal Code</th>
+                                                <th>Submission</th>
                                             </tr>
                                         </thead>
                                         <tbody>

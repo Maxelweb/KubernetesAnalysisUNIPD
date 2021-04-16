@@ -24,19 +24,20 @@ class UserSignUpInAndRequest(SequentialTaskSet):
         #else:
         #    TestInit.yoimstatic()
 
-    @task
-    def signup(self):
-        r = self.client.get("https://rcd.debug.ovh")
-        pq = PyQuery(r.content)
-        response = self.client.post("https://api.rcd.debug.ovh/register", data = json.dumps({
-            'name': self.name,
-            'surname': self.surname,
-            'certid': self.certid,
-            'email': self.email,
-            'password': self.password,
-            'confirmPassword': self.password
-        }), headers = {'Content-Type': 'application/json'})
-        logging.info('Sign up with %s email', self.email)
+    
+    # @task
+    # def signup(self):
+    #     r = self.client.get("https://rcd.debug.ovh")
+    #     pq = PyQuery(r.content)
+    #     response = self.client.post("https://api.rcd.debug.ovh/register", data = json.dumps({
+    #         'name': self.name,
+    #         'surname': self.surname,
+    #         'certid': self.certid,
+    #         'email': self.email,
+    #         'password': self.password,
+    #         'confirmPassword': self.password
+    #     }), headers = {'Content-Type': 'application/json'})
+    #     logging.info('Sign up with %s email', self.email)
 
     @task
     def login(self):
@@ -45,8 +46,21 @@ class UserSignUpInAndRequest(SequentialTaskSet):
         }), headers = {'Content-Type': 'application/json'})
         logging.info('RES=')
         logging.info(response)
-        self.token = response.json().token
+        self.token = response.json()['token']
         logging.info('Login with token: %s ', self.token)
+
+    @task
+    def submit(self):
+        self.client.post("https://api.rcd.debug.ovh/profile/" + self.certid, headers = {
+            'authorization': self.token, 
+            'Content-Type': 'application/json'
+            })
+        logging.info('%s just submitted the form', self.email)
+
+    @task
+    def on_stop(self):
+        self.interrupt()
+        # self.environment.runner.quit()
 
 
 def yoimstatic():
