@@ -17,17 +17,26 @@ export default function Profile( { Component } ) {
     const [users, setUsers] = useState ([]);
     const [printedRanking, setPrintedRanking] = useState ('');
     const [loggedIn, setLoggedIn] = useState (null);
+    const [time, setTime] = useState(Date.now());
 
     useEffect(async () => {
+        
+        const interval = setInterval(() => setTime(Date.now()), 1000);
+        
         setLoggedIn(window.localStorage.getItem('token') != null);
         setCertid(window.localStorage.getItem('certid'))
         /*if (window.localStorage.getItem('token') != null){
             getProfile();            
         }*/
-        if (loggedIn === true)
+        if (window.localStorage.getItem('token') != null)
             setUsers(await getUsers());
         else
-            setUsers([])
+            setUsers([]);
+        
+        return () => {
+            clearInterval(interval);
+        };
+        
     }, []);
 
     const getUsers = async () => {
