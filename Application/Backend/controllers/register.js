@@ -16,31 +16,35 @@ const handleRegister = (bcrypt, db) => async (req, res) =>{
     const params = validator.validation(name, surname, email, password, certid)
     
     if (params && password === confirmPassword) {  
-        await db.transaction(async trx => {
-            await trx.insert({
-                    hash: hash,
-                    certid: certid,
-                    email: email
-                })
-                .into('login')
-                .returning('certid')
-                .then(cartidLogin => {
-                    return trx('users')
-                        .returning('*')
-                        .insert({
-                            email: email,
-                            name: name,
-                            surname: surname,
-                            certid: cartidLogin[0]
-                        })
-                        .then(user => {
-                            res.json(user[0]);
-                        })
-                        .then(trx.commit)
-                        .catch(Promise.reject(trx.rollback));
-                })
-                .catch(err => Promise.reject(res.status(400).json('something went wrong')));
-            });
+        try{
+            await db.transaction(async trx => {
+                await trx.insert({
+                        hash: hash,
+                        certid: certid,
+                        email: email
+                    })
+                    .into('login')
+                    .returning('certid')
+                    .then(cartidLogin => {
+                        return trx('users')
+                            .returning('*')
+                            .insert({
+                                email: email,
+                                name: name,
+                                surname: surname,
+                                certid: cartidLogin[0]
+                            })
+                            .then(user => {
+                                res.json(user[0]);
+                            })
+                            .then(trx.commit)
+                            .catch(Promise.reject(trx.rollback));
+                    })
+                    .catch(err => Promise.reject(res.status(400).json('something went wrong')));
+                });
+        } catch {
+            console.log("something went wrong")
+        }
     }
     else {
         return Promise.reject(res.status(400).json('incorrect form submission'))
