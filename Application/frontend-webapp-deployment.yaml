@@ -2,8 +2,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   annotations:
-    kompose.cmd: C:\ProgramData\chocolatey\lib\kubernetes-kompose\tools\kompose.exe
-      convert
+    kompose.cmd: c:\programdata\chocolatey\lib\kubernetes-kompose\tools\kompose.exe
+      convert -f .\docker-compose.prod.yml
     kompose.version: 1.21.0 (992df58d8)
   creationTimestamp: null
   labels:
@@ -18,26 +18,23 @@ spec:
   template:
     metadata:
       annotations:
-        kompose.cmd: C:\ProgramData\chocolatey\lib\kubernetes-kompose\tools\kompose.exe
-          convert
+        kompose.cmd: c:\programdata\chocolatey\lib\kubernetes-kompose\tools\kompose.exe
+          convert -f .\docker-compose.prod.yml
         kompose.version: 1.21.0 (992df58d8)
       creationTimestamp: null
       labels:
         io.kompose.service: frontend-webapp
     spec:
       containers:
-      - args:
-        - sh
-        - -c
-        - npm install && npm run dev
-        image: node:14-alpine
+      - image: docker.pkg.github.com/maxelweb/kubernetes-rcd/frontend-rcd:latest
         imagePullPolicy: ""
         name: frontend-webapp
         ports:
         - containerPort: 3000
         resources: {}
-        workingDir: /usr/src/Frontend
       restartPolicy: Always
       serviceAccountName: ""
       volumes: null
+      imagePullSecrets:
+        - name: regcred
 status: {}
