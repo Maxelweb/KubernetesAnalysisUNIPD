@@ -49,7 +49,7 @@ Kubernetes analysis, Runtimes for Concurrency and Distribution course, Computer 
 - NPM correggere con un dockerfile il problema del loop backoff
 - `loadBalancer` --> service type --> bad, metallb ancora in beta, esterno a Kubernetes. Don't use it.  
 
-### deployment
+### Deployment
 
 > Contiene una risorsa che contiene una risorsa di tipo ReplicaSet (rs), che contiene una specifica di "template" (ossia come devono essere fatti) i pod (\~= equivalente dei container docker)
 
@@ -72,6 +72,10 @@ Kubernetes analysis, Runtimes for Concurrency and Distribution course, Computer 
 
 - Github action da fare con aggiornamento continuo della immagine per NPM (poi cambiare `image: alpine-xx` to `image: http://my-fucking-registry/aaaaaaaaaaaa`)
 
-- `x` -->
-- `x` -->
-- `x` -->
+
+## Kompose (from docker-compose)
+
+- `kompose convert -f docker-compose.prod.yml` --> traduzione del docker compose
+- Se non è stato configurato docker login
+	- `cat token_used_to_read_packages_in_github.txt | docker login https://docker.pkg.github.com -u <gh-username> --password-stdin:`
+- `kubectl apply -f <files-divided-by-commas>` --> creo ed eseguo i deployments
