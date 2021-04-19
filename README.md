@@ -78,4 +78,5 @@ Kubernetes analysis, Runtimes for Concurrency and Distribution course, Computer 
 - `kompose convert -f docker-compose.prod.yml` --> traduzione del docker compose
 - Se non è stato configurato docker login
 	- `cat token_used_to_read_packages_in_github.txt | docker login https://docker.pkg.github.com -u <gh-username> --password-stdin:`
+	- https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
 - `kubectl apply -f <files-divided-by-commas>` --> creo ed eseguo i deployments
