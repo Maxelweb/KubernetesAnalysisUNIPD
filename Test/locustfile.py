@@ -1,14 +1,33 @@
-# This locust test script example will simulate a user 
-# browsing the Locust documentation on https://docs.locust.io
-
 import random
 from locust import HttpUser, SequentialTaskSet, TaskSet, between, task
 import logging, sys, json
 from pyquery import PyQuery
 import csv
+import string
 
+
+MAX_USERS = 1000
 USER_CREDENTIALS = []
 
+
+def strgen(size=6, chars=string.ascii_uppercase + string.ascii_lowercase + string.digits):
+    return ''.join(random.choice(chars) for _ in range(size))
+
+
+def ListGenerator():
+    global USER_CREDENTIALS
+    if (USER_CREDENTIALS == []):
+        for _ in range(0, MAX_USERS):
+            USER_CREDENTIALS.append({strgen(12, string.ascii_uppercase + string.ascii_lowercase), strgen(12, string.ascii_uppercase + string.ascii_lowercase), strgen(12), strgen(12)})
+        print("User list generated!")
+
+        # with open('/mnt/locust/dataset/data_user_500.csv', 'rt') as f:
+        #     reader = csv.reader(f)
+        #     USER_CREDENTIALS = list(reader)
+        # print("USER LIST LOADED!!")
+    return 1
+
+    
 class UserSignUpInAndRequest(SequentialTaskSet):
     name = "defaultname"
     surname = "defaultsurname"
@@ -21,23 +40,23 @@ class UserSignUpInAndRequest(SequentialTaskSet):
         if len(USER_CREDENTIALS) > 0:
             self.name, self.surname, self.email, self.certid = USER_CREDENTIALS.pop()
             self.email = self.email + "@email.it"
-        #else:
-        #    TestInit.yoimstatic()
-
     
-    # @task
-    # def signup(self):
-    #     r = self.client.get("https://rcd.debug.ovh")
-    #     pq = PyQuery(r.content)
-    #     response = self.client.post("https://api.rcd.debug.ovh/register", data = json.dumps({
-    #         'name': self.name,
-    #         'surname': self.surname,
-    #         'certid': self.certid,
-    #         'email': self.email,
-    #         'password': self.password,
-    #         'confirmPassword': self.password
-    #     }), headers = {'Content-Type': 'application/json'})
-    #     logging.info('Sign up with %s email', self.email)
+    @task
+    def signup(self):
+        r = self.client.get("https://rcd.debug.ovh")
+        pq = PyQuery(r.content)
+        response = self.client.post("https://api.rcd.debug.ovh/register", data = json.dumps({
+            'name': self.name,
+            'surname': self.surname,
+            'certid': self.certid,
+            'email': self.email,
+            'password': self.password,
+            'confirmPassword': self.password
+        }), headers = {'Content-Type': 'application/json'})
+        if response.status_code == 200:
+            logging.info('Sign up with %s email', self.email)
+        else:
+            logging.info('Error %s', response.status_code)
 
     @task
     def login(self):
@@ -58,23 +77,26 @@ class UserSignUpInAndRequest(SequentialTaskSet):
         logging.info('%s just submitted the form', self.email)
 
     @task
+    def profile(self):
+        self.client.post("https://api.rcd.debug.ovh/profile", headers = {
+            'authorization': self.token, 'Content-Type': 'application/json'
+            })
+        logging.info('%s just visited its profile page', self.email)
+
+    @task
+    def rank(self):
+        self.client.get("https://api.rcd.debug.ovh/rank", headers = {
+            'authorization': self.token, 'Content-Type': 'application/json'
+            })
+        logging.info('%s just visited the ranking page', self.email)
+
+    @task
     def on_stop(self):
         self.interrupt()
         # self.environment.runner.quit()
-
-
-def yoimstatic():
-    global USER_CREDENTIALS
-    if (USER_CREDENTIALS == []):
-        with open('/mnt/locust/dataset/data_user_500.csv', 'rt') as f:
-            reader = csv.reader(f)
-            USER_CREDENTIALS = list(reader)
-        print("USER LIST LOADED!!")
-    return 1
 
 class TestInit(HttpUser):
     tasks = [UserSignUpInAndRequest]
     host = "https://api.rcd.debug.ovh"
     sock = None
-    dummy = yoimstatic()
-    
+    dummy = ListGenerator()
