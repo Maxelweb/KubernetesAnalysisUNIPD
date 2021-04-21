@@ -7,6 +7,9 @@ import Card from 'react-bootstrap/Card'
 import Table from 'react-bootstrap/Table'
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router'
+require('dotenv').config()
+
+
 
 export default function Profile( { Component } ) {
 
