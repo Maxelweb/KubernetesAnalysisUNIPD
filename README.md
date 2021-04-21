@@ -79,6 +79,6 @@ Kubernetes analysis, Runtimes for Concurrency and Distribution course, Computer 
 - Se non è stato configurato docker login
 	- `cat token_used_to_read_packages_in_github.txt | docker login https://docker.pkg.github.com -u <gh-username> --password-stdin:`
 	- https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/ --> Not working very well
-	- in alternativa: `kubectl create secret docker-registry [name] –docker-server=https://index.docker.io/v1/ –docker-username=[dockerUsername] –docker-password=[dockerToken] –docker-email=[emailassociatedwithDocker]`
+	- in alternativa: `kubectl create secret docker-registry rcd-secret --docker-server=docker.pkg.github.com --docker-username=<github_username> --docker-password=<token_secret_read_packages_github>`
 		- ricordarsi di aggiungere `imagePullSecrets: - name: <nome-secrets>` nel deployments
 - `kubectl apply -f <files-divided-by-commas>` --> creo ed eseguo i deployments

@@ -28,7 +28,10 @@ spec:
       imagePullSecrets:
       - name: rcd-secret
       containers:
-      - image: docker.pkg.github.com/maxelweb/kubernetes-rcd/frontend-rcd:latest
+      - env:
+        - name: API_URL
+          value: https://api.rcd.debug.ovh
+        image: docker.pkg.github.com/maxelweb/kubernetes-rcd/frontend-rcd:latest
         imagePullPolicy: Always
         name: frontend-webapp
         ports:

@@ -34,7 +34,7 @@ export default function Profile( { Component } ) {
 
     const getUsers = async () => {
         const token = window.localStorage.getItem('token');
-        const response = await fetch('https://api.rcd.debug.ovh/rank', {
+        const response = await fetch(process.env.API_URL+'rank', {
             method: 'GET',
             headers: {
                 'authorization': token,

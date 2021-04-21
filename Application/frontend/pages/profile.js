@@ -17,7 +17,7 @@ export default function Profile( { Component } ) {
 
     let getProfile = async () => {
         const certidStorage = window.localStorage.getItem('certid');
-        const response = await fetch('https://api.rcd.debug.ovh/profile/' + certidStorage, {
+        const response = await fetch(process.env.API_URL+'profile/' + certidStorage, {
             method: 'GET', // Submission entry updated in submit.js using POST request
             headers: {
                 'authorization': window.localStorage.getItem('token'),

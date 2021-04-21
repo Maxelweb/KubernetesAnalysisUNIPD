@@ -14,7 +14,7 @@ export default function Homepage({ Component }) {
     const router = useRouter();
 
     let onSigninSubmit = async () => {
-        const responseSignin = await fetch('https://api.rcd.debug.ovh/signin', {
+        const responseSignin = await fetch(process.env.API_URL+'signin', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -30,7 +30,7 @@ export default function Homepage({ Component }) {
             window.localStorage.setItem('token', json.token);
             window.localStorage.setItem('certid', json.certid);
             
-            const responseProfile = await fetch('https://api.rcd.debug.ovh/profile/' + json.certid, {
+            const responseProfile = await fetch(process.env.API_URL+'profile/' + json.certid, {
                 method: 'GET',
                 headers: {
                     'authorization': json.token,
@@ -61,7 +61,7 @@ export default function Homepage({ Component }) {
     const [signupPasswordConfirm, setSignupPasswordConfirm] = useState ('');
 
     let onSignupSubmit = async () => {
-        const response = await fetch('https://api.rcd.debug.ovh/register', {
+        const response = await fetch(process.env.API_URL+'register', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -91,7 +91,7 @@ export default function Homepage({ Component }) {
     useEffect(async () => {
         const token = window.localStorage.getItem('token');
         if (token) {
-            const responseSignin = await fetch('https://api.rcd.debug.ovh/signin', {
+            const responseSignin = await fetch(process.env.API_URL+'signin', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -101,7 +101,7 @@ export default function Homepage({ Component }) {
             const json = await responseSignin.json();
 
             if (json.certid) {    
-                const responseProfile = await fetch('https://api.rcd.debug.ovh/profile/' + json.certid, {
+                const responseProfile = await fetch(process.env.API_URL+'profile/' + json.certid, {
                     method: 'GET',
                     headers: {
                         'authorization': token,

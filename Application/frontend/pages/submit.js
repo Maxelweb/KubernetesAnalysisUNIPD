@@ -35,7 +35,7 @@ export default function Submit({ Component }) {
         const certidStorage = window.localStorage.getItem('certid');
 
         if (certidStorage === certid && OTP === OTPGenerated) {
-            const response = await fetch('https://api.rcd.debug.ovh/profile/' + certidStorage, {
+            const response = await fetch(process.env.API_URL+'profile/' + certidStorage, {
                 method: 'POST', // Here we submit with POST request
                 headers: {
                     'authorization': window.localStorage.getItem('token'),
