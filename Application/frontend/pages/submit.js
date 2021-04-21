@@ -6,7 +6,6 @@ import Col from 'react-bootstrap/Col'
 import Card from 'react-bootstrap/Card'
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router'
-require('dotenv').config()
 
 
 
@@ -38,7 +37,7 @@ export default function Submit({ Component }) {
         const certidStorage = window.localStorage.getItem('certid');
 
         if (certidStorage === certid && OTP === OTPGenerated) {
-            const response = await fetch(process.env.API_URL+'profile/' + certidStorage, {
+            const response = await fetch(process.env.REACT_APP_API_URL+'profile/' + certidStorage, {
                 method: 'POST', // Here we submit with POST request
                 headers: {
                     'authorization': window.localStorage.getItem('token'),

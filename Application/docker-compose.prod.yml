@@ -26,7 +26,7 @@ services:
     container_name: frontend-webapp
     image: docker.pkg.github.com/maxelweb/kubernetes-rcd/frontend-rcd:latest
     environment:
-      - API_URL=https://api.rcd.debug.ovh/
+      - REACT_APP_API_URL=https://api.rcd.debug.ovh/
     # build: ./frontend
     ports:
       - 80:3000

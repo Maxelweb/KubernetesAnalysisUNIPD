@@ -29,7 +29,7 @@ spec:
       - name: rcd-secret
       containers:
       - env:
-        - name: API_URL
+        - name: REACT_APP_API_URL
           value: https://api.rcd.debug.ovh/
         image: docker.pkg.github.com/maxelweb/kubernetes-rcd/frontend-rcd:latest
         imagePullPolicy: Always
