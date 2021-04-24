@@ -12,3 +12,4 @@ You can learn more about next.js [here](https://nextjs.org/docs) and [here](http
 
 - Remember to add a `.env.local` file with `NEXT_PUBLIC_` prefix to show enviroment variables in `process.env.NEXT_PUBLIC_VARIABLE` (both in the file and in the process.env)
 - No need to import or `require('dontenv')` stuff to do :D
+- `.env.local` overrides `.env.*` --> https://nextjs.org/docs/basic-features/environment-variables#exposing-environment-variables-to-the-browser
