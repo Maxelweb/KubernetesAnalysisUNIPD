@@ -10,10 +10,12 @@ metadata:
     io.kompose.service: backend-api
   name: backend-api
 spec:
+  type: NodePort
   ports:
   - name: "8080"
     port: 8080
     targetPort: 3000
+    nodePort: 30081
   selector:
     io.kompose.service: backend-api
 status:

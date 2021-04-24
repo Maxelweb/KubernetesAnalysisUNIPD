@@ -10,10 +10,12 @@ metadata:
     io.kompose.service: frontend-webapp
   name: frontend-webapp
 spec:
+  type: NodePort
   ports:
   - name: "80"
     port: 80
     targetPort: 3000
+    nodePort: 30080
   selector:
     io.kompose.service: frontend-webapp
 status:

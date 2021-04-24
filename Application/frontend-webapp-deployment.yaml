@@ -29,8 +29,13 @@ spec:
       - name: rcd-secret
       containers:
       - env:
-        - name: REACT_APP_API_URL
-          value: https://api.rcd.debug.ovh/
+        - name: NEXT_PUBLIC_API_URL
+          value: http://localhost:30081/
+        volumeMounts:
+          - name: environment-variables-f
+            mountPath: "/usr/src/Frontend/.env.local"
+            subPath: ".env.local"
+            readOnly: false
         image: docker.pkg.github.com/maxelweb/kubernetes-rcd/frontend-rcd:latest
         imagePullPolicy: Always
         name: frontend-webapp
@@ -39,5 +44,11 @@ spec:
         resources: {}
       restartPolicy: Always
       serviceAccountName: ""
-      volumes: null
+      volumes: 
+      - name: environment-variables-f
+        configMap:
+          name: environment-variables-f
+          items:
+            - key: .env.local
+              path: .env.local
 status: {}
