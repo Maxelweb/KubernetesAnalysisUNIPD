@@ -20,6 +20,7 @@ const auth = require('./utils/authorization')
 const portEnv = process.env.PORT;
 const portFail = 3000;
 const hostPostgresEnv = process.env.DB_HOST ? process.env.DB_HOST : 'localhost';
+const portPostgresEnv = process.env.DB_PORT ? process.env.DB_PORT : 5432;
 
 // defining the Express app
 const app = express();
@@ -29,6 +30,7 @@ const db = knex({
   client: 'pg',
   connection: {
     host : hostPostgresEnv,
+    port: portPostgresEnv,
     user : process.env.DB_USER,
     password : process.env.DB_PASS,
     database : process.env.DB_NAME
