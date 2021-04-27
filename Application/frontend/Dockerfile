@@ -13,4 +13,4 @@ RUN npm run-script build
 
 RUN chmod +x ./start.sh
 
-CMD ["./start.sh"]
+CMD ["/usr/src/Frontend/start.sh"]
