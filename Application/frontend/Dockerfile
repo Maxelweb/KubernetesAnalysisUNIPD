@@ -11,4 +11,6 @@ COPY . .
 RUN npm install
 RUN npm run-script build
 
-CMD [ "npm", "start" ]
+RUN chmod +x /start.sh
+
+CMD ["/start.sh"]
