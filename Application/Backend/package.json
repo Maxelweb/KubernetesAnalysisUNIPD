@@ -19,9 +19,9 @@
     "jsonwebtoken": "^8.5.1",
     "knex": "^0.95.2",
     "morgan": "^1.10.0",
+    "nodemon": "^2.0.7",
     "pg": "^8.5.1",
     "redis": "^3.0.2",
-    "validator": "^13.5.2",
-    "nodemon": "^2.0.7"
+    "validator": "^13.5.2"
   }
 }
