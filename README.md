@@ -82,3 +82,13 @@ Kubernetes analysis, Runtimes for Concurrency and Distribution course, Computer 
 	- in alternativa: `kubectl create secret docker-registry rcd-secret --docker-server=docker.pkg.github.com --docker-username=<github_username> --docker-password=<token_secret_read_packages_github>`
 		- ricordarsi di aggiungere `imagePullSecrets: - name: <nome-secrets>` nel deployments
 - `kubectl apply -f <files-divided-by-commas>` --> creo ed eseguo i deployments
+
+
+## Documentation for replicas and PVC
+
+- https://kubernetes.io/docs/tutorials/stateful-application/mysql-wordpress-persistent-volume/ --> Persistent volume
+- https://kubernetes.io/docs/tutorials/stateful-application/basic-stateful-set/ --> not necessary
+- https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/ --> readiness based on loop cycles
+- https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale-walkthrough/ --> Super usefull for autoscalers
+- https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/ --> How autoscalers works
+- https://kubernetes.io/docs/concepts/workloads/controllers/replicaset/#how-a-replicaset-works --> Replicaset not necessary since you use `replicas` in deployment config file
