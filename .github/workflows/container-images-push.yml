@@ -38,3 +38,19 @@ jobs:
           repository: maxelweb/kubernetes-rcd/frontend-rcd
           path: Application/frontend
           tag_with_ref: true
+
+  push_database_to_registry:
+    name: Push Database image to GitHub Packages
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v2
+      - name: Push to GitHub Packages
+        uses: docker/build-push-action@v1
+        with:
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+          registry: docker.pkg.github.com
+          repository: maxelweb/kubernetes-rcd/database-rcd
+          path: Application/Database
+          tag_with_ref: true

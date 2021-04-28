@@ -31,11 +31,20 @@ spec:
       - env:
         - name: TYPE
           value: backend
-        volumeMounts:
-          - name: environment-variables-b
-            mountPath: "/usr/src/Backend/.env"
-            subPath: ".env"
-            readOnly: false
+        - name: DB_HOST
+          value: postgres
+        - name: DB_NAME
+          value: rcd
+        - name: DB_PASS
+          value: dontchangemeimsecure
+        - name: DB_USER
+          value: postgres
+        - name: NODE_ENV
+          value: production
+        - name: REDIS_HOST
+          value: redis
+        - name: REDIS_PORT
+          value: "6379"
         image: docker.pkg.github.com/maxelweb/kubernetes-rcd/backend-rcd:latest
         imagePullPolicy: Always
         name: backend-api
@@ -44,11 +53,5 @@ spec:
         resources: {}
       restartPolicy: Always
       serviceAccountName: ""
-      volumes: 
-      - name: environment-variables-b
-        configMap:
-          name: environment-variables-b
-          items:
-            - key: .env
-              path: .env
+      volumes: null
 status: {}
