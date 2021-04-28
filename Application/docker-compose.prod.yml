@@ -44,7 +44,7 @@ services:
 
   postgres:
     container_name: postgres
-    image: postgres:13-alpine
+    image: docker.pkg.github.com/maxelweb/kubernetes-rcd/database-rcd:latest
     build: ./Database
     environment:
       POSTGRES_USER: postgres

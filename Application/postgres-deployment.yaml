@@ -25,6 +25,8 @@ spec:
       labels:
         io.kompose.service: postgres
     spec:
+      imagePullSecrets:
+      - name: rcd-secret
       containers:
       - env:
         - name: POSTGRES_DB

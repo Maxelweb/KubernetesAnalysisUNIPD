@@ -29,8 +29,8 @@ spec:
       - name: rcd-secret
       containers:
       - env:
-        - name: TYPE
-          value: backend
+        - name: DB_PORT
+          value: "2345"
         - name: DB_HOST
           value: postgres
         - name: DB_NAME
