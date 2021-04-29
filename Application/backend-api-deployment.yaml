@@ -7,7 +7,7 @@ metadata:
     io.kompose.service: backend-api
   name: backend-api
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       io.kompose.service: backend-api
@@ -44,7 +44,12 @@ spec:
         name: backend-api
         ports:
         - containerPort: 3000
-        resources: {} # Hardware resources allocation
+        resources: 
+          limits:
+            cpu: 500m
+            memory: 256Mi
+          requests:
+            cpu: 200m
       restartPolicy: Always
       serviceAccountName: ""
       volumes: []

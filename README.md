@@ -92,3 +92,5 @@ Kubernetes analysis, Runtimes for Concurrency and Distribution course, Computer 
 - https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale-walkthrough/ --> Super usefull for autoscalers
 - https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/ --> How autoscalers works
 - https://kubernetes.io/docs/concepts/workloads/controllers/replicaset/#how-a-replicaset-works --> Replicaset not necessary since you use `replicas` in deployment config file
+- https://learnk8s.io/autoscaling-apps-kubernetes --> Guide well written
+- https://github.com/kubernetes-sigs/prometheus-adapter/blob/master/docs/walkthrough.md
