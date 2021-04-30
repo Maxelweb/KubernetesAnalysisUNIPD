@@ -1,5 +1,7 @@
 // importing the dependencies
 const express = require('express');
+//const Prometheus = require('prom-client');
+const apiMetrics = require('prometheus-api-metrics');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const helmet = require('helmet');
@@ -7,6 +9,20 @@ const morgan = require('morgan');
 const bcrypt = require('bcrypt');
 const knex = require('knex');
 require('dotenv').config()
+
+//extra prometheus metrics
+// const signInRequests = new Prometheus.Counter({
+//   name: 'signin_requests',
+//   help: 'Total number of new Sign In',
+//   labelNames: ['rcd_signin_requests']
+// });
+
+// const signUpRequests = new Prometheus.Counter({
+//   name: 'signup_requests',
+//   help: 'Total number of new Sign Up',
+//   labelNames: ['rcd_signup_requests']
+// });
+
 
 //importing the controllers
 const register = require('./controllers/register');
@@ -37,6 +53,7 @@ const db = knex({
   }
 });
 
+
 // adding Helmet to enhance API's security
 app.use(helmet());
 
@@ -49,9 +66,12 @@ app.use(cors());
 // adding morgan to log HTTP requests
 app.use(morgan('combined'));
 
+// prometheus api middleware
+app.use(apiMetrics())
+
 // endpoints
 app.get('/', (req, res) => {
-  res.json("it's working");
+  res.json("RCD Backend API - it's working");
 });
 
 app.post('/signin', signin.signinAuthentication(bcrypt, db))
@@ -63,6 +83,7 @@ app.get('/profile/:certid', auth.requireAuth, profile.handleProfile(db))
 app.post('/profile/:certid', auth.requireAuth, profile.handleSubmit(db))
 
 app.get('/rank', auth.requireAuth, profile.getRank(db))
+
 
 // starting the server
 app.listen(portEnv || portFail, () => {

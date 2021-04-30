@@ -94,3 +94,28 @@ Kubernetes analysis, Runtimes for Concurrency and Distribution course, Computer 
 - https://kubernetes.io/docs/concepts/workloads/controllers/replicaset/#how-a-replicaset-works --> Replicaset not necessary since you use `replicas` in deployment config file
 - https://learnk8s.io/autoscaling-apps-kubernetes --> Guide well written
 - https://github.com/kubernetes-sigs/prometheus-adapter/blob/master/docs/walkthrough.md
+
+
+## Autoscaling - Prometheus
+
+![prom-scheme](https://miro.medium.com/max/875/1*_BdOsoS41c-fYchLimpiAg.jpeg)
+
+- [Guide Overall example](https://towardsdatascience.com/kubernetes-hpa-with-custom-metrics-from-prometheus-9ffc201991e)
+- https://github.com/luxas/kubeadm-workshop/blob/master/images/autoscaling/server.js
+
+### Install Prometheus adapter
+- Install Helm (not the "fosso di helm")
+- `helm repo add prometheus-community https://prometheus-community.github.io/helm-charts`
+- `helm repo update`
+- `helm install prometheus-community/prometheus-adapter --generate-name`
+- After some minutes: `kubectl get --raw /apis/custom.metrics.k8s.io/v1beta1`
+
+### Install prometheus
+
+1. Go to prometheus repository
+2. Download `bundle.yaml`
+3. `kubectl apply -f bundle.yaml`
+
+### Backend-api endpoint
+
+- `metrics/`
