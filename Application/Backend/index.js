@@ -99,7 +99,7 @@ app.get('/healthz', (req, res) => {
     
     console.log("Current open connections: " + count);
 
-    if(count < maxConnectionHealthz)
+    if(count > maxConnectionHealthz)
       return res.status(429).json('Too many requests');
     else
       return res.status(200).json('ok');
