@@ -1,5 +1,6 @@
 // importing the dependencies
 const express = require('express');
+var http = require('http')
 //const Prometheus = require('prom-client');
 const apiMetrics = require('prometheus-api-metrics');
 const bodyParser = require('body-parser');
@@ -37,6 +38,10 @@ const portEnv = process.env.PORT;
 const portFail = 3000;
 const hostPostgresEnv = process.env.DB_HOST ? process.env.DB_HOST : 'localhost';
 const portPostgresEnv = process.env.DB_PORT ? process.env.DB_PORT : 5432;
+
+// Connection threshold for health check
+const maxConnectionHealthz = process.env.MAX_CONNECTIONS_HEALTHZ || 25;
+var server;
 
 // defining the Express app
 const app = express();
@@ -85,7 +90,25 @@ app.post('/profile/:certid', auth.requireAuth, profile.handleSubmit(db))
 app.get('/rank', auth.requireAuth, profile.getRank(db))
 
 
+// Health check for liveness and readiness probes
+app.get('/healthz', (req, res) => {
+
+  server.getConnections((error, count) => {
+    if(error)
+      return res.status(503).json('Unable to retrieve active connections');
+    
+    console.log("Current open connections: " + count);
+
+    if(count < maxConnectionHealthz)
+      return res.status(429).json('Too many requests');
+    else
+      return res.status(200).json('ok');
+  });
+  
+});
+
 // starting the server
-app.listen(portEnv || portFail, () => {
+server = http.createServer(app);
+server.listen(portEnv || portFail, () => {
   console.log(`Server running on http://localhost:${portEnv ? portEnv : portFail}`);
-})
+});
