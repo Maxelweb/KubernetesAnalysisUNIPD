@@ -98,6 +98,8 @@ Kubernetes analysis, Runtimes for Concurrency and Distribution course, Computer 
 
 ## Autoscaling - Prometheus
 
+> Troppo avanzato
+
 ![prom-scheme](https://miro.medium.com/max/875/1*_BdOsoS41c-fYchLimpiAg.jpeg)
 
 - [Guide Overall example](https://towardsdatascience.com/kubernetes-hpa-with-custom-metrics-from-prometheus-9ffc201991e)
@@ -118,4 +120,16 @@ Kubernetes analysis, Runtimes for Concurrency and Distribution course, Computer 
 
 ### Backend-api endpoint
 
-- `metrics/`
+- `metrics/` Prometheus metrics
+- `healthz/` se gli utenti richiesti sono superiori a X utenti
+
+
+## Liveness and HPA 
+
+- `kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml` Metrics Server
+- Edit `kubectl -n kube-system edit deploy metrics-server` and add this below assuming you're in version 0.4.4 and the pods keeps restarting..
+```
+ - args:
+        - --v=2
+        - --kubelet-insecure-tls
+```

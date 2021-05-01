@@ -1,4 +1,8 @@
-apiVersion: autoscaling/v2beta2
+# Remember! https://github.com/kubernetes/kubernetes/issues/57673#issuecomment-354240478 --> no need for this
+# Or this https://github.com/kubernetes-sigs/metrics-server/issues/131#issuecomment-618671827
+# after installing https://github.com/kubernetes-sigs/metrics-server
+
+apiVersion: autoscaling/v1
 kind: HorizontalPodAutoscaler
 metadata:
   name: backend-api
@@ -7,12 +11,6 @@ spec:
     apiVersion: apps/v1
     kind: Deployment
     name: backend-api
-  minReplicas: 1
+  minReplicas: 3
   maxReplicas: 10
-  metrics:
-  - type: Resource
-    resource:
-      name: cpu
-      target:
-        type: Utilization
-        averageUtilization: 40
+  targetCPUUtilizationPercentage: 30
