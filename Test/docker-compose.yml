@@ -6,13 +6,15 @@ services:
   master:
     build: ./locust
     ports:
-     - "8089:8089"
+    - "8089:8089"
     volumes:
       - ./:/mnt/locust
-    command: -f /mnt/locust/locustfile.py --master -H http://master:8089
-  
+    command: -f /mnt/locust/locustfile.py --master
+    # network_mode: host
+
   worker:
     build: ./locust
     volumes:
       - ./:/mnt/locust
-    command: -f /mnt/locust/locustfile.py --worker --master-host master
+    command: -f /mnt/locust/locustfile.py --worker --master-host 127.0.0.1
+    # network_mode: host

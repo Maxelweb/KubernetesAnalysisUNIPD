@@ -43,9 +43,9 @@ class UserSignUpInAndRequest(SequentialTaskSet):
     
     @task
     def signup(self):
-        r = self.client.get("https://rcd.debug.ovh")
+        r = self.client.get("http://localhost:30080")
         pq = PyQuery(r.content)
-        response = self.client.post("https://api.rcd.debug.ovh/register", data = json.dumps({
+        response = self.client.post("http://localhost:30081/register", data = json.dumps({
             'name': self.name,
             'surname': self.surname,
             'certid': self.certid,
@@ -60,7 +60,7 @@ class UserSignUpInAndRequest(SequentialTaskSet):
 
     @task
     def login(self):
-        response = self.client.post("https://api.rcd.debug.ovh/signin", data = json.dumps({
+        response = self.client.post("http://localhost:30081/signin", data = json.dumps({
             'email': self.email, 'password': self.password
         }), headers = {'Content-Type': 'application/json'})
         logging.info('RES=')
@@ -70,7 +70,7 @@ class UserSignUpInAndRequest(SequentialTaskSet):
 
     @task
     def submit(self):
-        self.client.post("https://api.rcd.debug.ovh/profile/" + self.certid, headers = {
+        self.client.post("http://localhost:30081/profile/" + self.certid, headers = {
             'authorization': self.token, 
             'Content-Type': 'application/json'
             })
@@ -78,14 +78,14 @@ class UserSignUpInAndRequest(SequentialTaskSet):
 
     @task
     def profile(self):
-        self.client.post("https://api.rcd.debug.ovh/profile", headers = {
+        self.client.post("http://localhost:30081/profile", headers = {
             'authorization': self.token, 'Content-Type': 'application/json'
             })
         logging.info('%s just visited its profile page', self.email)
 
     @task
     def rank(self):
-        self.client.get("https://api.rcd.debug.ovh/rank", headers = {
+        self.client.get("http://localhost:30081/rank", headers = {
             'authorization': self.token, 'Content-Type': 'application/json'
             })
         logging.info('%s just visited the ranking page', self.email)
@@ -97,6 +97,6 @@ class UserSignUpInAndRequest(SequentialTaskSet):
 
 class TestInit(HttpUser):
     tasks = [UserSignUpInAndRequest]
-    host = "https://api.rcd.debug.ovh"
+    host = "http://localhost:30081"
     sock = None
     dummy = ListGenerator()
