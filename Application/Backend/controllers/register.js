@@ -38,7 +38,7 @@ const handleRegister = (bcrypt, db) => async (req, res) =>{
                                 res.json(user[0]);
                             })
                             .then(trx.commit)
-                            .catch(Promise.reject(trx.rollback));
+                            .catch(trx.rollback);
                     })
                     .catch(err => Promise.reject(res.status(400).json('something went wrong')));
                 });
@@ -47,7 +47,7 @@ const handleRegister = (bcrypt, db) => async (req, res) =>{
         }
     }
     else {
-        return Promise.reject(res.status(400).json('incorrect form submission'))
+        return res.status(400).json('incorrect form submission');
     }
 }  
 
