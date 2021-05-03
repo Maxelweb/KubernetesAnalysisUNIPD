@@ -31,7 +31,7 @@ const handleSignin = (bcrypt, db, req, res) => {
                 }
             })
     } else {
-        return Promise.reject(res.status(400).json('incorrect form submission'));
+        return Promise.reject('incorrect form submission');
     } 
 }
 
