@@ -59,7 +59,7 @@ class UserSignUpInAndRequest(SequentialTaskSet):
         else:
             logging.info('Error on Sign up %s', response.status_code)
             self.interrupt()
-        time.sleep(random.randint(0.1, 2))
+        time.sleep(random.uniform(0.1, 2.0))
 
     @task
     def login(self):
@@ -75,7 +75,7 @@ class UserSignUpInAndRequest(SequentialTaskSet):
         else:
             logging.info('Error on Sign in %s', response.status_code)
             self.interrupt()
-        time.sleep(random.randint(0.1, 2))
+        time.sleep(random.uniform(0.1, 2.0))
 
     @task
     def submit(self):
@@ -93,9 +93,9 @@ class UserSignUpInAndRequest(SequentialTaskSet):
         logging.info('%s just visited the ranking page', self.email)
         self.interrupt()
 
-    #@task
-    #def on_stop(self):
-        # self.interrupt()
+    @task
+    def on_stop(self):
+        self.interrupt()
         # self.environment.runner.quit()
 
 class TestInit(HttpUser):
