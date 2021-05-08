@@ -17,9 +17,8 @@ const handleRegister = (bcrypt, db) => async (req, res) =>{
     
     if (params && password === confirmPassword) {
         try {
-            db.count('certid').from('users').where('certid', certid).then(async counter => {
-                print(counter);
-                if(counter[0] === 0 || counter === 0){
+            await db.count('certid').from('users').where({certid}).then(async result => {
+                if(result[0].count == 0){
                     await db.transaction(async trx => {
                         await trx.insert({
                             hash: hash,
@@ -45,8 +44,11 @@ const handleRegister = (bcrypt, db) => async (req, res) =>{
                         })
                         .catch(err => res.status(400).json('something with the connection with database went wrong'));
                     });
+                } else {
+                    return res.status(400).json('user already registered')
                 }
-            }).catch(err => res.status(400).json('user already registered'))
+            })
+            .catch(err => res.status(400).json('error:  ' + err))
         } catch {
             return res.status(400).json('something went wrong while registering')
         }
