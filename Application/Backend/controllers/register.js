@@ -17,10 +17,10 @@ const handleRegister = (bcrypt, db) => async (req, res) =>{
     
     if (params && password === confirmPassword) {
         try {
-            db.count('certid').from('users').where('certid', certid).then(counter => {
+            db.count('certid').from('users').where('certid', certid).then(async counter => {
                 print(counter);
                 if(counter[0] === 0 || counter === 0){
-                    db.transaction(async trx => {
+                    await db.transaction(async trx => {
                         await trx.insert({
                             hash: hash,
                             certid: certid,
