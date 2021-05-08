@@ -17,7 +17,7 @@ const handleRegister = (bcrypt, db) => async (req, res) =>{
     
     if (params && password === confirmPassword) {
         try {
-            await db.count('certid').from('users').where('certid', certid).then(counter => {
+            db.count('certid').from('users').where('certid', certid).then(counter => {
                 print(counter);
                 if(counter[0] === 0 || counter === 0){
                     await db.transaction(async trx => {
