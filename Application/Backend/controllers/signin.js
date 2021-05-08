@@ -81,12 +81,14 @@ const setToken = (key, value) => {
 const createSession = (user) => {
     const { certid } = user;
     const token = signToken(certid)
-    return setToken( token, certid ).then(() => {
-        return {
-            certid,
-            token
-        }
-    }).catch(err => console.error(err))
+    return setToken( token, certid )
+        .then(() => {
+            return {
+                certid,
+                token
+            }
+        })
+        .catch(err => console.error(err))
 }
 
 /**
