@@ -43,9 +43,9 @@ class UserSignUpInAndRequest(SequentialTaskSet):
     
     @task
     def signup(self):
-        r = self.client.get("http://localhost:30080")
-        pq = PyQuery(r.content)
-        response = self.client.post("http://localhost:30081/register", data = json.dumps({
+        # r = self.client.get("http://127.0.0.1:30080")
+        # pq = PyQuery(r.content)
+        response = self.client.post("http://127.0.0.1:30081/register", data = json.dumps({
             'name': self.name,
             'surname': self.surname,
             'certid': self.certid,
@@ -60,7 +60,7 @@ class UserSignUpInAndRequest(SequentialTaskSet):
 
     @task
     def login(self):
-        response = self.client.post("http://localhost:30081/signin", data = json.dumps({
+        response = self.client.post("http://127.0.0.1:30081/signin", data = json.dumps({
             'email': self.email, 'password': self.password
         }), headers = {'Content-Type': 'application/json'})
         logging.info('RES=')
@@ -70,25 +70,25 @@ class UserSignUpInAndRequest(SequentialTaskSet):
 
     @task
     def submit(self):
-        self.client.post("http://localhost:30081/profile/" + self.certid, headers = {
+        self.client.post("http://127.0.0.1:30081/profile/" + self.certid, headers = {
             'authorization': self.token, 
             'Content-Type': 'application/json'
             })
         logging.info('%s just submitted the form', self.email)
 
-    @task
-    def profile(self):
-        self.client.post("http://localhost:30081/profile", headers = {
-            'authorization': self.token, 'Content-Type': 'application/json'
-            })
-        logging.info('%s just visited its profile page', self.email)
+    # @task
+    # def profile(self):
+    #     self.client.post("http://127.0.0.1:30081/profile", headers = {
+    #         'authorization': self.token, 'Content-Type': 'application/json'
+    #         })
+    #     logging.info('%s just visited its profile page', self.email)
 
-    @task
-    def rank(self):
-        self.client.get("http://localhost:30081/rank", headers = {
-            'authorization': self.token, 'Content-Type': 'application/json'
-            })
-        logging.info('%s just visited the ranking page', self.email)
+    # @task
+    # def rank(self):
+    #     self.client.get("http://127.0.0.1:30081/rank", headers = {
+    #         'authorization': self.token, 'Content-Type': 'application/json'
+    #         })
+    #     logging.info('%s just visited the ranking page', self.email)
 
     @task
     def on_stop(self):
@@ -97,6 +97,6 @@ class UserSignUpInAndRequest(SequentialTaskSet):
 
 class TestInit(HttpUser):
     tasks = [UserSignUpInAndRequest]
-    host = "http://localhost:30081"
+    host = "http://127.0.0.1:30081"
     sock = None
     dummy = ListGenerator()
