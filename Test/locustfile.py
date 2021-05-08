@@ -2,8 +2,9 @@ import random
 from locust import HttpUser, SequentialTaskSet, TaskSet, between, task
 import logging, sys, json
 from pyquery import PyQuery
-import csv
 import string
+import time
+import random
 
 
 MAX_USERS = 1000
@@ -57,6 +58,8 @@ class UserSignUpInAndRequest(SequentialTaskSet):
             logging.info('Sign up with %s email', self.email)
         else:
             logging.info('Error %s', response.status_code)
+
+        time.sleep(random.randint(0.1, 2))
 
     @task
     def login(self):
