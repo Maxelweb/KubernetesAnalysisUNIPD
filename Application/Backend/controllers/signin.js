@@ -25,11 +25,12 @@ const handleSignin = (bcrypt, db, req, res) => {
                     return db.select('*').from('users')
                         .where('email', '=', email)
                         .then(user => user[0])
-                        .catch(err => Promise.reject('Unable to get user'));
+                        .catch(err => res.status(400).json('Unable to get user'));
                 } else {
-                    Promise.reject('Wrong credentials');
+                    return Promise.reject('Wrong credentials');
                 }
             })
+            .catch(err=>console.log(err))
     } else {
         return Promise.reject('incorrect form submission');
     } 
