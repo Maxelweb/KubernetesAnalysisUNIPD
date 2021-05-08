@@ -57,8 +57,8 @@ class UserSignUpInAndRequest(SequentialTaskSet):
         if response.status_code == 200:
             logging.info('Sign up with %s email', self.email)
         else:
-            logging.info('Error %s', response.status_code)
-
+            logging.info('Error on Sign up %s', response.status_code)
+            self.interrupt()
         time.sleep(random.randint(0.1, 2))
 
     @task
@@ -70,6 +70,12 @@ class UserSignUpInAndRequest(SequentialTaskSet):
         logging.info(response)
         self.token = response.json()['token']
         logging.info('Login with token: %s ', self.token)
+        if response.status_code == 200:
+            logging.info('Sign in with %s email', self.email)
+        else:
+            logging.info('Error on Sign in %s', response.status_code)
+            self.interrupt()
+        time.sleep(random.randint(0.1, 2))
 
     @task
     def submit(self):
@@ -79,23 +85,17 @@ class UserSignUpInAndRequest(SequentialTaskSet):
             })
         logging.info('%s just submitted the form', self.email)
 
-    # @task
-    # def profile(self):
-    #     self.client.post("http://127.0.0.1:30081/profile", headers = {
-    #         'authorization': self.token, 'Content-Type': 'application/json'
-    #         })
-    #     logging.info('%s just visited its profile page', self.email)
-
-    # @task
-    # def rank(self):
-    #     self.client.get("http://127.0.0.1:30081/rank", headers = {
-    #         'authorization': self.token, 'Content-Type': 'application/json'
-    #         })
-    #     logging.info('%s just visited the ranking page', self.email)
-
     @task
-    def on_stop(self):
+    def rank(self):
+        self.client.get("http://127.0.0.1:30081/rank", headers = {
+            'authorization': self.token, 'Content-Type': 'application/json'
+            })
+        logging.info('%s just visited the ranking page', self.email)
         self.interrupt()
+
+    #@task
+    #def on_stop(self):
+        # self.interrupt()
         # self.environment.runner.quit()
 
 class TestInit(HttpUser):
