@@ -68,10 +68,10 @@ class UserSignUpInAndRequest(SequentialTaskSet):
         }), headers = {'Content-Type': 'application/json'})
         logging.info('RES=')
         logging.info(response)
-        self.token = response.json()['token']
-        logging.info('Login with token: %s ', self.token)
         if response.status_code == 200:
             logging.info('Sign in with %s email', self.email)
+            self.token = response.json()['token']
+            logging.info('Login with token: %s ', self.token)
         else:
             logging.info('Error on Sign in %s', response.status_code)
             self.interrupt()

@@ -70,7 +70,14 @@ const signToken = (certid) => {
  * @returns 
  */
 const setToken = (key, value) => {
-    return Promise.resolve(redisClient.set(key, value))
+    return Promise.resolve(redisClient.set(key, value,  function(err) {
+        if (err) {
+           // Something went wrong
+           console.error("error setting redis");
+        } else {
+           console.info("WEEEEEEEE it worked")
+        }
+    }))
 }
 
 /**
@@ -108,6 +115,8 @@ const signinAuthentication = (db, bcrypt) => (req, res) => {
             .then(session => res.json(session))
             .catch(err => res.status(400).json(err))
 }
+
+
 
 module.exports = {
     signinAuthentication: signinAuthentication,
