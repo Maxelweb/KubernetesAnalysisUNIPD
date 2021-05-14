@@ -53,7 +53,7 @@ class UserSignUpInAndRequest(SequentialTaskSet):
             'email': self.email,
             'password': self.password,
             'confirmPassword': self.password
-        }), headers = {'Content-Type': 'applic ation/json'})
+        }), headers = {'Content-Type': 'application/json'})
         if response.status_code == 200:
             logging.info('Sign up with %s email', self.email)
         else:
