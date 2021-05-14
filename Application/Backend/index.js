@@ -87,6 +87,9 @@ app.get('/profile/:certid', auth.requireAuth, profile.handleProfile(db))
 
 app.post('/profile/:certid', auth.requireAuth, profile.handleSubmit(db))
 
+// Alias of /profile
+app.post('/profile-submission', auth.requireAuth, profile.handleSubmission(db))
+
 app.get('/rank', auth.requireAuth, profile.getRank(db))
 
 

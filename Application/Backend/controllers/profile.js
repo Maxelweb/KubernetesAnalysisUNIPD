@@ -30,6 +30,23 @@ const handleSubmit = (db) => (req, res) => {
         .catch(err => res.status(404).json('error during the submission.'))
 }
 
+const handleSubmission = (db) => (req, res) => {
+    const { certid } = req.body
+    db('users')
+        .where({certid})
+        .update({
+            submission: new Date()
+        })
+        .then(response => {
+            if(response) {
+                res.status(200).json('success')
+            } else {
+                res.status(400).json('unable to update')
+            }
+        })
+        .catch(err => res.status(404).json('error during the submission.'))
+}
+
 const getRank = (db) => (req, res) => {
     db.select('*')
         .from('users')

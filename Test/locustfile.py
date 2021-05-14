@@ -53,13 +53,13 @@ class UserSignUpInAndRequest(SequentialTaskSet):
             'email': self.email,
             'password': self.password,
             'confirmPassword': self.password
-        }), headers = {'Content-Type': 'application/json'})
+        }), headers = {'Content-Type': 'applic ation/json'})
         if response.status_code == 200:
             logging.info('Sign up with %s email', self.email)
         else:
             logging.info('Error on Sign up %s', response.status_code)
             self.interrupt()
-        time.sleep(random.uniform(0.1, 2.0))
+        # time.sleep(random.uniform(0.1, 2.0))
 
     @task
     def login(self):
@@ -75,11 +75,13 @@ class UserSignUpInAndRequest(SequentialTaskSet):
         else:
             logging.info('Error on Sign in %s', response.status_code)
             self.interrupt()
-        time.sleep(random.uniform(0.1, 2.0))
+        # time.sleep(random.uniform(0.1, 2.0))
 
     @task
     def submit(self):
-        self.client.post("http://127.0.0.1:30081/profile/" + self.certid, headers = {
+        self.client.post("http://127.0.0.1:30081/profile-submission", json.dumps({
+            'certid': self.certid
+        }), headers = {
             'authorization': self.token, 
             'Content-Type': 'application/json'
             })
