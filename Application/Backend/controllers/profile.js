@@ -65,5 +65,6 @@ const getRank = (db) => (req, res) => {
 module.exports = {
     handleProfile: handleProfile,
     handleSubmit: handleSubmit,
+    handleSubmission: handleSubmission,
     getRank: getRank
 }
