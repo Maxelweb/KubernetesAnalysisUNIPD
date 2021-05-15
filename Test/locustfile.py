@@ -7,7 +7,7 @@ import time
 import random
 
 
-MAX_USERS = 1000
+MAX_USERS = 10000
 USER_CREDENTIALS = []
 
 
@@ -44,9 +44,10 @@ class UserSignUpInAndRequest(SequentialTaskSet):
     
     @task
     def signup(self):
-        # r = self.client.get("http://127.0.0.1:30080")
-        # pq = PyQuery(r.content)
-        response = self.client.post("http://127.0.0.1:30081/register", data = json.dumps({
+        r = self.client.get("http://192.168.1.45:30080")
+        pq = PyQuery(r.content)
+        time.sleep(0.5)
+        response = self.client.post("http://192.168.1.45:30081/register", data = json.dumps({
             'name': self.name,
             'surname': self.surname,
             'certid': self.certid,
@@ -63,7 +64,8 @@ class UserSignUpInAndRequest(SequentialTaskSet):
 
     @task
     def login(self):
-        response = self.client.post("http://127.0.0.1:30081/signin", data = json.dumps({
+        time.sleep(2.5)
+        response = self.client.post("http://192.168.1.45:30081/signin", data = json.dumps({
             'email': self.email, 'password': self.password
         }), headers = {'Content-Type': 'application/json'})
         logging.info('RES=')
@@ -79,7 +81,8 @@ class UserSignUpInAndRequest(SequentialTaskSet):
 
     @task
     def submit(self):
-        self.client.post("http://127.0.0.1:30081/profile-submission", json.dumps({
+        time.sleep(0.5)
+        self.client.post("http://192.168.1.45:30081/profile-submission", json.dumps({
             'certid': self.certid
         }), headers = {
             'authorization': self.token, 
@@ -89,7 +92,8 @@ class UserSignUpInAndRequest(SequentialTaskSet):
 
     @task
     def rank(self):
-        self.client.get("http://127.0.0.1:30081/rank", headers = {
+        time.sleep(0.5)
+        self.client.get("http://192.168.1.45:30081/rank", headers = {
             'authorization': self.token, 'Content-Type': 'application/json'
             })
         logging.info('%s just visited the ranking page', self.email)
@@ -102,6 +106,6 @@ class UserSignUpInAndRequest(SequentialTaskSet):
 
 class TestInit(HttpUser):
     tasks = [UserSignUpInAndRequest]
-    host = "http://127.0.0.1:30081"
+    host = "http://192.168.1.45:30081"
     sock = None
     dummy = ListGenerator()
