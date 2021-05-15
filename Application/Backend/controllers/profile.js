@@ -52,6 +52,8 @@ const getRank = (db) => (req, res) => {
         .from('users')
         .whereNot('submission', null)
         .orderBy('submission', 'ASC')
+        .limit(100)
+        .offset(0)
         .then(list => {
             if (list.length) {
                 res.json(list)
