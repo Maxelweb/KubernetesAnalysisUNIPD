@@ -42,7 +42,7 @@ spec:
         - name: MAX_CONNECTIONS_HEALTHZ
           value: "500"
         image: docker.pkg.github.com/maxelweb/kubernetes-rcd/backend-rcd:latest
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
         name: backend-api
         ports:
         - containerPort: 3000
