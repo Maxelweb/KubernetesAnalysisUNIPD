@@ -25,7 +25,7 @@ const handleSignin = (bcrypt, db, req, res) => {
                     return db.select('*').from('users')
                         .where('email', '=', email)
                         .then(user => user[0])
-                        .catch(err => res.status(400).json('Unable to get user'));
+                        .catch(err => res.status(409).json('Unable to get user'));
                 } else {
                     return Promise.reject('Wrong credentials');
                 }
@@ -47,7 +47,7 @@ const getAuthTokenCertid = (req, res) => {
     return redisClient.get(authorization, (err, reply) => {
         console.log(reply)
         if(err || !reply) {
-            return res.status(400).json('Unauthorized');
+            return res.status(401).json('Unauthorized');
         }
         return res.json({certid: reply});
     })
@@ -74,8 +74,6 @@ const setToken = (key, value) => {
         if (err) {
            // Something went wrong
            console.error("error setting redis");
-        } else {
-           console.info("WEEEEEEEE it worked")
         }
     }))
 }
@@ -113,7 +111,7 @@ const signinAuthentication = (db, bcrypt) => (req, res) => {
         handleSignin(db, bcrypt, req, res)
             .then(data =>  data.certid && data.email ? createSession(data) : Promise.reject(data))
             .then(session => res.json(session))
-            .catch(err => res.status(400).json(err))
+            .catch(err => res.status(403).json(err))
 }
 
 
