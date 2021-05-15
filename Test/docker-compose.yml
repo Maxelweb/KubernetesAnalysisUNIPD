@@ -16,5 +16,5 @@ services:
     build: ./locust
     volumes:
       - ./:/mnt/locust
-    command: -f /mnt/locust/locustfile.py --worker --master-host 127.0.0.1
+    command: -f /mnt/locust/locustfile.py --worker --master-host master
     # network_mode: host

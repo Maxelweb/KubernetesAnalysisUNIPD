@@ -42,19 +42,19 @@ const handleRegister = (bcrypt, db) => async (req, res) =>{
                                 .then(trx.commit)
                                 .catch(trx.rollback);
                         })
-                        .catch(err => res.status(400).json('something with the connection with database went wrong'));
+                        .catch(err => res.status(423).json('something with the connection with database went wrong'));
                     });
                 } else {
-                    return res.status(400).json('user already registered')
+                    return res.status(409).json('user already registered')
                 }
             })
-            .catch(err => res.status(400).json('error:  ' + err))
+            .catch(err => res.status(408).json('error:  ' + err))
         } catch {
             return res.status(400).json('something went wrong while registering')
         }
     }
     else {
-        return res.status(400).json('incorrect form submission, check your data');
+        return res.status(422).json('incorrect form submission, check your data');
     }
 }  
 
