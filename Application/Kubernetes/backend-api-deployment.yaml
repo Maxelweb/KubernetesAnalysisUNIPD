@@ -40,24 +40,24 @@ spec:
         - name: REDIS_PORT
           value: "6379"
         - name: MAX_CONNECTIONS_HEALTHZ
-          value: "50"
+          value: "500"
         image: docker.pkg.github.com/maxelweb/kubernetes-rcd/backend-rcd:latest
         imagePullPolicy: IfNotPresent
         name: backend-api
         ports:
         - containerPort: 3000
-        resources: {}
-          # limits:
-          #   cpu: 1000m
-          #   memory: 256Mi
-          # requests:
-          #   cpu: 500m
-        # livenessProbe:
-        #   httpGet:
-        #     path: /healthz
-        #     port: 3000
-        #   initialDelaySeconds: 20
-        #   periodSeconds: 5
+        resources:
+          limits:
+            cpu: 1000m
+            memory: 256Mi
+          requests:
+            cpu: 500m
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: 3000
+          initialDelaySeconds: 20
+          periodSeconds: 10
       restartPolicy: Always
       serviceAccountName: ""
       volumes: []
