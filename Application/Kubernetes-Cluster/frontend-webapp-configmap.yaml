@@ -1,0 +1,10 @@
+# help: https://stackoverflow.com/questions/59071793/how-to-access-kubernetes-container-environment-variables-from-next-js-applicatio
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: environment-variables-f
+  namespace: default
+data:
+  .env.local: |
+    NEXT_PUBLIC_API_URL=http://localhost:30081/

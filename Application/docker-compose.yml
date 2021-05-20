@@ -34,7 +34,6 @@ services:
       - postgres
 
 
-  # TODO: set the correct build script for production!! like: npm run-script build && npm start
   frontend-webapp: 
     container_name: frontend-webapp
     image: node:14-alpine

@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.version: 1.21.0 (992df58d8)
+  labels:
+    io.kompose.service: backend-api
+  name: backend-api
+spec:
+  replicas: 6
+  selector:
+    matchLabels:
+      io.kompose.service: backend-api
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.version: 1.21.0 (992df58d8)
+      labels:
+        io.kompose.service: backend-api
+    spec:
+      imagePullSecrets:
+      - name: rcd-secret
+      containers:
+      - env:
+        - name: DB_PORT
+          value: "2345"
+        - name: DB_HOST
+          value: postgres
+        - name: DB_NAME
+          value: rcd
+        - name: DB_PASS
+          value: dontchangemeimsecure
+        - name: DB_USER
+          value: postgres
+        - name: NODE_ENV
+          value: production
+        - name: REDIS_HOST
+          value: redis
+        - name: REDIS_PORT
+          value: "6379"
+        - name: MAX_CONNECTIONS_HEALTHZ
+          value: "500"
+        image: docker.pkg.github.com/maxelweb/kubernetes-rcd/backend-rcd:latest
+        imagePullPolicy: Always
+        name: backend-api
+        ports:
+        - containerPort: 3000
+        resources:
+          limits:
+            cpu: 1000m
+            memory: 256Mi
+          requests:
+            cpu: 500m
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: 3000
+          initialDelaySeconds: 20
+          periodSeconds: 10
+      restartPolicy: Always
+      serviceAccountName: ""
+      volumes: []
+status: {}

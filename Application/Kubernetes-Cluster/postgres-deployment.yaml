@@ -39,14 +39,14 @@ spec:
           - shared_buffers=256MB
         ports:
         - containerPort: 5432
-        resources: # Hardware resources allocation
-        volumeMounts:
-        - name: postgres-persistent-storage
-          mountPath: /var/lib/postgresql/data
+        resources: {} # Hardware resources allocation
+        # volumeMounts:
+        # - name: postgres-persistent-storage
+        #   mountPath: /var/lib/postgresql/data
       restartPolicy: Always
       serviceAccountName: ""   
-      volumes:
-      - name: postgres-persistent-storage
-        persistentVolumeClaim:
-          claimName: postgres-pvc
+      # volumes:
+      # - name: postgres-persistent-storage
+      #   persistentVolumeClaim:
+      #     claimName: postgres-pvc
 status: {}

@@ -21,11 +21,6 @@ def ListGenerator():
         for _ in range(0, MAX_USERS):
             USER_CREDENTIALS.append({strgen(12, string.ascii_uppercase + string.ascii_lowercase), strgen(12, string.ascii_uppercase + string.ascii_lowercase), strgen(12), strgen(12)})
         print("User list generated!")
-
-        # with open('/mnt/locust/dataset/data_user_500.csv', 'rt') as f:
-        #     reader = csv.reader(f)
-        #     USER_CREDENTIALS = list(reader)
-        # print("USER LIST LOADED!!")
     return 1
 
     
@@ -34,7 +29,7 @@ class UserSignUpInAndRequest(SequentialTaskSet):
     surname = "defaultsurname"
     email = "test@test.it"
     certid = "defaultcertid"
-    password = "vivaisoldi"
+    password = "fakepassword"
     token = ""
 
     def on_start(self):
@@ -44,10 +39,10 @@ class UserSignUpInAndRequest(SequentialTaskSet):
     
     @task
     def signup(self):
-        r = self.client.get("http://192.168.1.45:30080")
+        r = self.client.get("http://127.0.0.1:30080")
         pq = PyQuery(r.content)
         time.sleep(0.5)
-        response = self.client.post("http://192.168.1.45:30081/register", data = json.dumps({
+        response = self.client.post("http://127.0.0.1:30081/register", data = json.dumps({
             'name': self.name,
             'surname': self.surname,
             'certid': self.certid,
@@ -60,12 +55,11 @@ class UserSignUpInAndRequest(SequentialTaskSet):
         else:
             logging.info('Error on Sign up %s', response.status_code)
             self.interrupt()
-        # time.sleep(random.uniform(0.1, 2.0))
 
     @task
     def login(self):
         time.sleep(2.5)
-        response = self.client.post("http://192.168.1.45:30081/signin", data = json.dumps({
+        response = self.client.post("http://127.0.0.1:30081/signin", data = json.dumps({
             'email': self.email, 'password': self.password
         }), headers = {'Content-Type': 'application/json'})
         logging.info('RES=')
@@ -77,12 +71,11 @@ class UserSignUpInAndRequest(SequentialTaskSet):
         else:
             logging.info('Error on Sign in %s', response.status_code)
             self.interrupt()
-        # time.sleep(random.uniform(0.1, 2.0))
 
     @task
     def submit(self):
         time.sleep(0.5)
-        self.client.post("http://192.168.1.45:30081/profile-submission", json.dumps({
+        self.client.post("http://127.0.0.1:30081/profile-submission", json.dumps({
             'certid': self.certid
         }), headers = {
             'authorization': self.token, 
@@ -93,7 +86,7 @@ class UserSignUpInAndRequest(SequentialTaskSet):
     @task
     def rank(self):
         time.sleep(0.5)
-        self.client.get("http://192.168.1.45:30081/rank", headers = {
+        self.client.get("http://127.0.0.1:30081/rank", headers = {
             'authorization': self.token, 'Content-Type': 'application/json'
             })
         logging.info('%s just visited the ranking page', self.email)
@@ -102,10 +95,9 @@ class UserSignUpInAndRequest(SequentialTaskSet):
     @task
     def on_stop(self):
         self.interrupt()
-        # self.environment.runner.quit()
 
 class TestInit(HttpUser):
     tasks = [UserSignUpInAndRequest]
-    host = "http://192.168.1.45:30081"
+    host = "http://127.0.0.1:30081"
     sock = None
     dummy = ListGenerator()

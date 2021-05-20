@@ -7,7 +7,6 @@ metadata:
 spec:
   accessModes:
     - ReadWriteOnce
-  storageClassName: local-storage # might break everything depending on configuration
   resources:
     requests:
-      storage: 2Gi
+      storage: 5Gi 
